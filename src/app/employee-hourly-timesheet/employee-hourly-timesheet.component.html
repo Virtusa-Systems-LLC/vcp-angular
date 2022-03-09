@@ -1,0 +1,255 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/dashboard']">
+                    <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li class="active">
+                Hourly Status
+            </li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <app-alert></app-alert>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <b>{{title}}</b>
+            </div>
+            <div class="panel-body">
+                <strong>
+                    <div class="month">
+                        <ul>
+                            <li class="prev" (click)="previousWeek()"><i class="fa fa-arrow-circle-left"></i></li>
+                            <li class="next" (click)="nextWeek()"><i class="fa fa-arrow-circle-right"></i></li>
+                            <li> {{currentMonth}}
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="weekdays">
+                        <li>Mon</li>
+                        <li>Tue</li>
+                        <li>Wed</li>
+                        <li>Thu</li>
+                        <li>Fri</li>
+                        <li>Sat</li>
+                        <li>Sun</li>
+                    </ul>
+                    <ul class="days">
+                        <li *ngFor="let res of daysInLastMonth" (click)="selectDate(res)"><span
+                                [ngClass]="res.date == currentDate ? 'active' : ''"
+                                class="cursor_pointer">{{res.day}}</span></li>
+                    </ul>
+                </strong>
+
+
+                <div class="notify">
+
+                    <p>
+                        <strong>&nbsp; &nbsp;  Hi Team,</strong>
+                        <li>
+                            1.If you face any error while entering Today's status please refresh the page and try again.
+                        </li>
+                        
+                        <li>
+                            2.If you are unable to Edit or Delete Today's status  please click on the today's date.
+                        </li>
+
+                    </p>
+
+                </div>
+
+                <div class="addDailyStatus" *ngIf="hourlyStatusInfo.length == 0 && !hourlyFormStatus ">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <button class="btn btn-warning btn-sm" (click)="showAddForm()">
+                                <i class="fa fa-plus"></i> Add Hourly Status</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                          
+          
+                <div *ngIf="hourlyStatusInfo.length > 0  && !hourlyFormStatus">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-solid">
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <ul class="timeline timeline-inverse">
+                                            <!-- timeline time label -->
+                                            <li class="time-label">
+                                                <span>Timeline</span>
+                                            </li>
+                                            <!-- /.timeline-label -->
+                                            <!-- timeline item -->
+                                            <li>
+                                                <i class="fa fa-envelope bg-blue"></i>
+
+                                                <div class="timeline-item"
+                                                    *ngFor="let row of hourlyStatusInfo; let i = index">
+                                                    <h3 class="timeline-header">Added Hourly Status at
+                                                        <span>{{hourlyStatusInfo[i].created_date | date: 'MMM d, y
+                                                            HH:mm'}}</span>
+
+
+
+                                            <li class="time-label pull-right">
+                                                <button class="btn btn-primary btn-xs"  [disabled]= "ED_buttonstatus" *ngIf="!hourlyFormStatus"
+                                                (click)="showEditForm(hourlyStatusInfo[i])">Edit Status
+                                                </button>
+                                               
+                                                &nbsp;
+                                                    
+                                                <button class="btn btn-danger btn-xs" [disabled]= "ED_buttonstatus" placement="left" mwlConfirmationPopover
+                                                [popoverTitle]="popoverTitle" [popoverMessage]="popoverMessage" 
+                                                (confirm)="deleteHourlyStatusById()" (cancel)="cancelClicked=true">Delete
+                                                </button>
+                                                
+                                            </li>
+                                            </h3>
+                                            <div class="timeline-body">
+                                                <dt>Project Name</dt>
+                                                <dd style="white-space: pre-line;">{{hourlyStatusInfo[i].project_name}}
+                                                </dd>
+                                                <br />
+                                                <dt>Checkin Time </dt>
+                                                <dd style="white-space: pre-line;">{{hourlyStatusInfo[i].checkin_time}}
+                                                </dd>
+                                                <br />
+                                                <dt>Checkout Time </dt>
+                                                <dd style="white-space: pre-line;">{{hourlyStatusInfo[i].checkout_time}}
+                                                </dd>
+                                                <br />
+                                                <dt>Hours</dt>
+                                                <dd>{{hourlyStatusInfo[i].hours}}</dd>
+                                                <br />
+                                                <dt>Work Done </dt>
+                                                <dd style="white-space: pre-line;">{{hourlyStatusInfo[i].last24hours}}
+                                                </dd>
+                                                <br />
+                                            </div>
+                                    </div>
+                                    </li>
+                                    <!-- END timeline item -->
+                                    </ul>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div><br>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="hourlyFormStatus">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-danger">
+                            <div class="box-header">
+                                <h3 class="box-title">Details</h3>
+                            </div>
+                            <div class="box-body">
+                                <form method="post" [formGroup]="hourlyStatusForm" novalidate autocomplete="off">
+                                    <div class="row">
+                                        <!-- IP mask -->
+                                        <div class="col-md-offset-1 col-md-10 col-md-offset-1 form-group">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" formArrayName="hourslist">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:20%">Project Name</th>
+                                                            <th style="width:20%">Start Time(EST)</th>
+                                                            <th style="width:20%">End Time(EST)</th>
+                                                            <th style="width:10%">Hours</th>
+                                                            <th style="width:30%">Status*</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let row of hourlyStatusForm.get('hourslist').controls; let i = index"
+                                                            [formGroupName]="i">
+                                                            <td>
+
+                                                                <input type="text" class="form-control"
+                                                                    name="project_name" formControlName="project_name">
+
+                                                            </td>
+                                                            <td>
+                                                                <input id="dt1" class="form-control" [owlDateTime]="dt1"
+                                                                    name="checkin_time" formControlName="checkin_time"
+                                                                    [owlDateTimeTrigger]="dt1"
+                                                                    (ngModelChange)="startTime($event, i)"
+                                                                    placeholder="Date Time">
+                                                                <owl-date-time #dt1></owl-date-time>
+                                                            </td>
+                                                            <td>
+                                                                <!-- <input id="dt2" class="form-control" [owlDateTime]="dt2" name="checkout_time"
+                                                                    formControlName="checkout_time"
+                                                                    [owlDateTimeTrigger]="dt2"
+                                                                    (ngModelChange)="endTime($event)"
+                                                                    [(ngModel)]="endtime" placeholder="Date Time">
+                                                                <owl-date-time #dt2></owl-date-time> -->
+                                                                <input id="dt2" class="form-control" [owlDateTime]="dt2"
+                                                                    name="checkout_time" formControlName="checkout_time"
+                                                                    [owlDateTimeTrigger]="dt2"
+                                                                    (ngModelChange)="endTime($event, i)"
+                                                                    placeholder="Date Time">
+                                                                <owl-date-time #dt2></owl-date-time>
+                                                            </td>
+                                                            <td>
+
+                                                                <input type="number" class="form-control" name="hours"
+                                                                    formControlName="hours" placeholder="hours">
+                                                                <!-- <span class="text-danger" *ngIf="(i==j)">{{this.name1}}</span> -->
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" style="border: 1px solid gray;"
+                                                                    formControlName="last24hours" name="last24hours"
+                                                                    placeholder="Work done in this time" 
+                                                                     > 
+                                                               
+                                                                <!-- <div class="invalid-feedback">
+                                                                      <span>First name is required</span>
+                                                                    </div> -->
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="row text-center">
+                                                <div class="col-md-offset-3 col-md-5 col-md-offset-4 form-group">
+                                                    <button type="button" *ngIf="buttonStatus" (click)="saveData()"
+                                                        class="btn btn-sm btn-success">
+                                                        <i class="fa fa-save"></i> &nbsp; Save </button>&nbsp;
+                                                    <button type="button" *ngIf="!buttonStatus" (click)="saveData()"
+                                                        class="btn btn-sm btn-success">
+                                                        <i class="fa fa-pencil"></i>&nbsp; Update</button>&nbsp;
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        (click)="backToList()">
+                                                        <i class="fa fa-window-close-o"></i> Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+</div>
+</section>
+<!-- /.content -->
+</div>

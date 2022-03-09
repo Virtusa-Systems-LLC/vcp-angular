@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+.owl-dt-calendar-table .owl-dt-calendar-header .owl-dt-weekdays th { font-size: 1.0em !important } .owl-dt-calendar-table .owl-dt-calendar-cell-content { font-size: 1.0em }
+
+.owl-dt-calendar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.container[_ngcontent-osh-c8] {
+  overflow: auto;
+  height: -webkit-fit-content;
+  /* height: 100px; */
+  /* height: -moz-fit-content; */
+  height: 420px;
+  background: white;
+}

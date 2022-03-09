@@ -1,0 +1,171 @@
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-4 select-mnth">
+        <div class="prev-next-mnth">
+          <input id="rad1" type="radio" name="radioBtn" (click)="setPreviousMonthFlag()" />
+          <label class="labels" for="rad1">Previous Month</label>
+          <input id="rad2" type="radio" name="radioBtn" (click)="setCurrentMonthFlag()" checked />
+          <label class="labels" for="rad2">Current Month</label>
+          <div class="bckgrnd"></div>
+        </div>
+      </div>
+      <div *ngIf="previousMonthFlag" class="col-md-4 download-btn-div">
+        <button class="btn btn-primary" title="Download excel report" (click)="exportToExcelReport1()">
+          <i class="fa fa-download"></i> Dowload Report
+        </button>
+      </div>
+      <div *ngIf="currentMonthFlag" class="col-md-4 download-btn-div">
+        <button class="btn btn-primary" title="Download excel report" (click)="exportToExcelReport2()">
+          <i class="fa fa-download"></i> &nbsp; Dowload Report
+        </button>
+      </div>
+
+      <div class="col-md-4 time-entry-req">
+        <label class="label-heading">
+          Daily Time Entry Required : &nbsp;
+        </label>
+        <div class="time-entry-rd-button">
+          <label>
+            <input type="radio" name="daily_time_entry" value="0" (change)="onChange($event.target.value)" checked>
+            <span>NO</span>
+          </label>
+        </div>
+        <div class="time-entry-rd-button">
+          <label>
+            <input type="radio" name="daily_time_entry" value="1" (change)="onChange($event.target.value)">
+            <span>YES</span>
+          </label>
+        </div>
+        <div class="time-entry-rd-button">
+          <label>
+            <input type="radio" name="daily_time_entry" value="2" (change)="onChange($event.target.value)">
+            <span>BOTH</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE : AS PER REQUIREMENT TIMEOFF project is not displayed in the report table ,it is eliminated using conditions in table
+
+    AUTHOR:Korlakunta Sai Prasanna Kumar,Contact:saiprasanna@ypointanalytics.com
+    created on :10-03-2021
+    last updated : 12-07-21-->
+
+    <div *ngIf="previousMonthFlag">
+      <div class="table-container previous-month-container">
+        <table class="table table-bordered" id="previousmonthtable">
+          <thead>
+            <tr>
+              <th class="sticky-th">ID</th>
+              <th class="sticky-th">Name</th>
+              <th class="sticky-th"><b>Total</b></th>
+              <th *ngFor="let project of previousmonthdata.projectsdata">
+                {{ project.project_name }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="sticky-tr">
+              <td class="sticky-td"></td>
+              <td class="sticky-td"><b>Total</b></td>
+              <td class="sticky-td"></td>
+              <td *ngFor="let projectinfo of previousmonthdata.projectsdata"
+                style="text-align: center; vertical-align: middle">
+                <div>
+                  <b class="pointer" (click)="DetailsOfTotalWorkDoneOnSpecificProject(projectinfo.project_id)">
+                    {{ projectinfo.total_monthly_hours }}
+                  </b>
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let empdata of previousmonthdata.employeesdata">
+              <td class="left-sticky-col">{{ empdata.details.user_id }}</td>
+              <td class="left-sticky-col">
+                {{ empdata.details.first_name }} {{ empdata.details.last_name }}
+              </td>
+              <td class="left-sticky-col pointer" (click)="DetailsOfEmployeeTotalWorkDone(empdata.details.user_id)">
+                <b>{{ empdata.totalhoursworked }}</b>
+              </td>
+              <td *ngFor="let projectdetails of empdata.totalprojects"
+                style="text-align: center; vertical-align: middle">
+                <!-- we are filtering timeoff whose project id is 7 -->
+                <div>
+                  <b class="pointer" *ngIf="projectdetails.hoursworked > 0"
+                    style="text-align: center; vertical-align: middle" (click)="
+                      DetailsOfEmployeeWorkDoneOnSpecificProject(
+                        projectdetails.project_id,
+                        empdata.details.user_id)">
+                    {{ projectdetails.hoursworked }}
+                  </b>
+                  <p *ngIf="projectdetails.hoursworked === 0">
+                    <!-- {{ projectdetails.hoursworked }} -->
+                    <!-- Note :  we put above line in comments because , as per new requirements we need not show 0(zero) hours
+                    only worked hours are displayed-->
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="currentMonthFlag">
+      <div class="table-container currentmonth-container">
+        <table class="table table-bordered" id="currentmonthtable">
+          <thead>
+            <tr>
+              <th class="sticky-th">ID</th>
+              <th class="sticky-th">Name</th>
+              <th class="sticky-th"><b>Total</b></th>
+              <th *ngFor="let project of currentmonthdata.projectsdata">
+                {{ project.project_name }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="sticky-tr">
+              <td class="sticky-td"></td>
+              <td class="sticky-td"><b>Total</b></td>
+              <td class="sticky-td"></td>
+              <td *ngFor="let projectinfo of currentmonthdata.projectsdata">
+                <div>
+                  <b class="pointer" (click)="
+                      DetailsOfTotalWorkDoneOnSpecificProject(
+                        projectinfo.project_id)">
+                    {{ projectinfo.total_monthly_hours }}
+                  </b>
+                </div>
+              </td>
+            </tr>
+
+            <tr *ngFor="let empdata of currentmonthdata.employeesdata">
+              <td class="left-sticky-col">{{ empdata.details.user_id }}</td>
+              <td class="left-sticky-col">{{ empdata.details.first_name }} {{ empdata.details.last_name }}</td>
+              <td class="left-sticky-col pointer" (click)="
+                  DetailsOfEmployeeTotalWorkDone(empdata.details.user_id)">
+                <b>{{ empdata.totalhoursworked }}</b>
+              </td>
+              <td style="text-align: center; vertical-align: middle"
+                *ngFor="let projectdetails of empdata.totalprojects">
+                <!-- we are filtering timeoff whose project id is 7 -->
+                <b class="pointer" *ngIf="projectdetails.hoursworked > 0" (click)="
+                    DetailsOfEmployeeWorkDoneOnSpecificProject(
+                      projectdetails.project_id,
+                      empdata.details.user_id)">
+                  {{ projectdetails.hoursworked }}
+                </b>
+                <p *ngIf="projectdetails.hoursworked === 0">
+                  <!-- {{ projectdetails.hoursworked }} -->
+                  <!-- Note :  we put above line in comments because , as per new requirements we need not show 0(zero) hours
+                    only worked hours are displayed-->
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>

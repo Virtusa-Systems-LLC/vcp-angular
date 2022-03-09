@@ -1,0 +1,390 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="javascript:void(0)">
+                    <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li class="active">
+                Laptop Information
+            </li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <app-alert></app-alert>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <b>{{title | capitalize}}</b>
+                <button *ngIf="inventoryListStatus && !inventoryViewStatus"
+                    class="btn btn-warning btn-sm pull-right custom_btn_size" (click)="showAddForm()">
+                    <i class="fa fa-plus"></i> Add</button>
+                <button *ngIf="!inventoryListStatus || inventoryViewStatus"
+                    class="btn btn-danger btn-sm pull-right custom_btn_size" (click)="backToList()">
+                    <i class="fa fa-arrow-left"></i> Back</button>
+            </div>
+            <div class="panel-body">
+                <div *ngIf="inventoryListStatus">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <i class="fa fa-text-width"></i>
+                                    <h3 class="box-title">Details </h3>
+                                    <a href="javascript:void(0)" class="btn btn-xs btn-sm pull-right btn-primary"
+                                        (click)="showEditForm(project)">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>&nbsp;
+                                </div>
+                                <!-- /.box-header -->
+                                <h4 class="box-title">Laptop Information</h4>
+                                <div class="box-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Laptop Name : </dt>
+                                        <dd>Lenovo</dd>
+                                        <br />
+                                        <dt>Laptop :</dt>
+                                        <dd> Make </dd>
+                                        <br />
+                                        <dt>MAC Address : </dt>
+                                        <dd> Gowri</dd>
+                                        <br />
+                                        <dt>CPU Speed : </dt>
+                                        <dd> Gowri</dd>
+                                        <br />
+                                        <dt>Serial Number :</dt>
+                                        <dd> No </dd>
+                                        <br />
+                                        <dt>Model : </dt>
+                                        <dd> dvscsds </dd>
+                                        <br />
+                                        <dt>CPU Cores Count : </dt>
+                                        <dd> dvscsds </dd>
+                                        <br />
+                                        <dt>Windows Pro Key : </dt>
+                                        <dd> dvscsds </dd>
+                                        <br />
+                                        <dt>Year : </dt>
+                                        <dd> dvscsds </dd>
+                                        <br />
+                                        <dt>Screen Size : </dt>
+                                        <dd> dvscsds </dd>
+                                        <br />
+                                        <dt>AntiVirus : </dt>
+                                        <dd> dvscsds </dd>
+                                        <br />
+                                        <dt>Company Laptop : </dt>
+                                        <dd> Yes </dd>
+                                        <br />
+                                        <dt>Ram Size : </dt>
+                                        <dd> 8</dd>
+                                        <br />
+                                        <dt>Admin UserName : </dt>
+                                        <dd> 8</dd>
+                                        <br />
+                                        <dt>Admin Password : </dt>
+                                        <dd> 8</dd>
+                                        <br />
+                                        <dt>Remarks : </dt>
+                                        <dd> No</dd>
+                                    </dl>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!inventoryListStatus && !inventoryViewStatus">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="box box-danger">
+                                <div class="box-header">
+                                    <h3 class="box-title">Details</h3>
+                                </div>
+                                <div class="box-body">
+                                    <form method="post" [formGroup]="inventoryForm" novalidate autocomplete="off">
+                                        <div class="row">
+                                            <!-- Date mm/dd/yyyy -->
+                                            <div class="col-md-4 form-group">
+                                                <label>Laptop Name :</label>
+                                                    <input type="text" class="form-control" formControlName="laptop_name"
+                                                        name="laptop_name" placeholder="Laptop Name">
+                                                <!-- /.input group -->
+                                                <div *ngIf="laptop_name.invalid && (laptop_name.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="laptop_name.errors.required">
+                                                        Laptop Name is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.form group -->
+                                            <div class="col-md-4 form-group">
+                                                <label>Serial Number :</label>
+                                                    <input type="text" placeholder="Serial Number"
+                                                        formControlName="serial_num" name="serial_num"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="serial_num.invalid && (serial_num.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="serial_num.errors.required">Serial Number
+                                                        is required.</div>
+
+                                                </div>
+                                            </div>
+                                            <!-- /.form group -->
+                                            <div class="col-md-4 form-group">
+                                                <label>MAC Address :</label>
+                                                    <input type="text" placeholder="MAC Address"
+                                                        formControlName="mac_address" name="mac_address"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="mac_address.invalid && (mac_address.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="mac_address.errors.required">MAC address
+                                                        is required.</div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                                <label>Laptop :</label>
+                                                <select class="form-control" formControlName="laptop" name="laptop">
+                                                    <option value=""> -- Select --</option>
+                                                    <option value="0"> Make </option>
+                                                    <option value="1"> Brand </option>
+                                                </select>
+                                                <!-- /.input group -->
+
+                                                <div *ngIf="laptop.invalid && (laptop.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="laptop.errors.required">
+                                                        Laptop is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>Ram Size :</label>
+                                                    <input type="number" placeholder="Ram Size"
+                                                        formControlName="ram_size" name="ram_size" class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="ram_size.invalid && (ram_size.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="ram_size.errors.required">Ram Size is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>Company Laptop :</label>
+
+                                                <select class="form-control" formControlName="comapny_laptop"
+                                                    name="comapny_laptop">
+                                                    <option value=""> -- Select --</option>
+                                                    <option value="0"> Yes </option>
+                                                    <option value="1"> No </option>
+                                                </select>
+                                                <!-- /.input group -->
+                                                <div *ngIf="comapny_laptop.invalid && (comapny_laptop.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="comapny_laptop.errors.required">Comapny Laptop is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                                <label>Year :</label>
+                                                    <input type="text" placeholder="Year" formControlName="year"
+                                                        name="year" class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="year.invalid && (year.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="year.errors.required">Year is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>AntiVirus :</label>
+                                                    <input type="text" placeholder="AntiVirus"
+                                                        formControlName="antivirus" name="antivirus"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="antivirus.invalid && (antivirus.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="antivirus.errors.required">AntiVirus is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>Screen Size :</label>
+                                                    <input type="text" placeholder="Screen Size"
+                                                        formControlName="screen_size" name="screen_size"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="screen_size.invalid && (screen_size.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="screen_size.errors.required">Screen Size
+                                                        is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                                <label>CPU Cores Count :</label>
+                                                    <input type="number" placeholder="CPU Cores Count"
+                                                        formControlName="cpu_cores_count" name="cpu_cores_count"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="cpu_cores_count.invalid && (cpu_cores_count.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="cpu_cores_count.errors.required">CPU Cores
+                                                        Count is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>CPU Speed :</label>
+                                                    <input type="text" placeholder="CPU Speed"
+                                                        formControlName="cpu_speed" name="cpu_speed"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="cpu_speed.invalid && (cpu_speed.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="cpu_speed.errors.required">CPU Speed is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>Model :</label>
+                                                    <input type="text" placeholder="Model" formControlName="model"
+                                                        name="model" class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="model.invalid && (model.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="model.errors.required">Model is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                                <label>BitLocker Key C Driver :</label>
+                                                    <input type="text" placeholder="BitLocker Key C Driver"
+                                                        formControlName="c_driver" name="c_driver" class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="c_driver.invalid && (c_driver.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="c_driver.errors.required">BitLocker Key C
+                                                        Driver is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>BitLocker Key D Driver :</label>
+                                                    <input type="text" placeholder="BitLocker Key D Driver"
+                                                        formControlName="d_driver" name="d_driver" class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="d_driver.invalid && (d_driver.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="d_driver.errors.required">BitLocker Key D
+                                                        Driver is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>BitLocker Key E Driver :</label>
+                                                    <input type="text" placeholder="BitLocker Key E Driver"
+                                                        formControlName="e_driver" name="e_driver" class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="e_driver.invalid && (e_driver.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="e_driver.errors.required">BitLocker Key E
+                                                        Driver is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                                <label>Windows Pro Key :</label>
+                                                    <input type="text" placeholder="Windows Pro Key"
+                                                        formControlName="windows_pro_key" name="windows_pro_key"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="windows_pro_key.invalid && (windows_pro_key.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="windows_pro_key.errors.required">Windows
+                                                        Pro Key is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>Admin UserName :</label>
+                                                    <input type="text" placeholder="Admin UserName"
+                                                        formControlName="user_name" name="user_name"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="user_name.invalid && (user_name.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="user_name.errors.required">Admin UserName
+                                                        is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <label>Admin Password :</label>
+                                                    <input type="password" placeholder="Admin Password"
+                                                        formControlName="admin_password" name="admin_password"
+                                                        class="form-control">
+                                                <!-- /.input group -->
+                                                <div *ngIf="admin_password.invalid && (admin_password.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="admin_password.errors.required">Admin
+                                                        Password is
+                                                        required.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                                <label>Remarks :</label>
+                                                    <input type="text" placeholder="Remarks" formControlName="remarks"
+                                                        name="remarks" class="form-control">
+                                                <!-- /.input group -->
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="row text-center">
+                                            <div class="col-md-12">
+                                                <button type="button" *ngIf="buttonStatus" (click)="addUser()"
+                                                    class="btn btn-sm btn-success">
+                                                    <i class="fa fa-save"></i> &nbsp; Save </button>&nbsp;
+                                                <button type="button" *ngIf="!buttonStatus" (click)="updateUser()"
+                                                    class="btn btn-sm btn-success">
+                                                    <i class="fa fa-pencil"></i> &nbsp; Update </button>&nbsp;
+                                                <button class="btn btn-sm btn-danger" (click)="backToList()">
+                                                    <i class="fa fa-window-close-o"></i> Close</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

@@ -1,0 +1,372 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/dashboard']">
+                <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li class="active">
+                Daily Status
+            </li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <app-alert></app-alert>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                {{title}}
+            </div>
+            <div class="panel-body">
+                <strong>
+                    <div class="month">
+                        <ul>
+                            <li class="prev" (click)="previousWeek()"><i class="fa fa-arrow-circle-left"></i></li>
+                            <li class="next" (click)="nextWeek()"><i class="fa fa-arrow-circle-right"></i></li>
+                            <li> {{currentMonth}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                    <ul class="weekdays">
+                        <li>Mon</li>
+                        <li>Tue</li>
+                        <li>Wed</li>
+                        <li>Thu</li>
+                        <li>Fri</li>
+                        <li>Sat</li>
+                        <li>Sun</li>
+                    </ul>
+                    <ul class="days">
+                        <li *ngFor="let res of daysInLastMonth" (click)="selectDate(res)">
+                            <span [ngClass]="res.date == currentDate ? 'active' : ''"
+                                class="cursor_pointer">{{res.day}}
+                            </span>
+                        </li>
+                    </ul>
+                    </div>
+                </strong>
+
+                
+                   
+                        <div class="notify">
+                                
+                            <p>
+                                <strong>&nbsp; &nbsp;  Hi Team,</strong>
+                                <li>
+                                    1.If you face any error while entering Today's status please refresh the page and try again.
+                                </li>
+                                
+                                <li>
+                                    2.If you are unable to Edit or Delete Today's status  please click on the today's date.
+                                </li>
+        
+                            </p>
+
+                        </div>
+                  
+
+                    
+                <!-- <div *ngIf="!dailyFormStatus && dailyViewStatus">
+                    <div class="row">
+                        <div class="col-md-offset-1 col-md-10 col-md-offset-1 form-group">
+                            <div class="table-responsive">
+                                <ng-container *ngFor="let project of projectsList; let i=index">
+                                    <table class="table table-bordered" *ngIf="project.project_type === 3">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:20%">Project Name</th>
+                                                <th style="width:20%">Check In Date Time</th>
+                                                <th style="width:20%">Check Out Date Time</th>
+                                                <th style="width:20%">Hours</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    {{project.project_name}}
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-success btn_width"
+                                                        name="check_in"
+                                                        [disabled]="isCheckinDisabled(project.project_id)"
+                                                        (click)="checkIn(project.project_id)">Check
+                                                        In</button>
+                                                    <div class="class-container">
+                                                        <ng-container
+                                                            *ngIf="getProjectWiseCheckinCheckoutData(project.project_id).length > 0">
+                                                            <span
+                                                                *ngFor="let checkintime of getProjectWiseCheckinCheckoutData(project.project_id); let i=index">
+                                                                Start Time:&nbsp;
+                                                                {{checkintime.checkin_time ? checkintime.checkin_time : '-'}}
+                                                            </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                            *ngIf="getProjectWiseCheckinCheckoutData(project.project_id).length == 0">
+                                                            Start Time:&nbsp; -
+                                                        </ng-container>
+                                                    </div>
+                                                    
+                                                    <input id="dt1" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+                                                    <owl-date-time #dt1></owl-date-time>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn_width"
+                                                        name="check_out"
+                                                        [disabled]="isCheckoutDisabled(project.project_id)"
+                                                        (click)="checkOut(project.project_id)">Check Out</button>
+                                                    <div class="class-container">
+                                                        <ng-container
+                                                            *ngIf="getProjectWiseCheckinCheckoutData(project.project_id).length > 0">
+                                                            <span
+                                                                *ngFor="let checkouttime of getProjectWiseCheckinCheckoutData(project.project_id); let i=index">
+                                                                End Time:&nbsp;
+                                                                {{checkouttime.checkout_time ? checkouttime.checkout_time : '-'}}
+                                                            </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                            *ngIf="getProjectWiseCheckinCheckoutData(project.project_id).length == 0">
+                                                            End Time:&nbsp; -
+                                                        </ng-container>
+                                                    </div>
+
+                                                     <input id="dt2" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Time">
+                                                    <owl-date-time #dt2></owl-date-time>
+                                                </td>
+                                                <td>
+                                                    <div class="class-container">
+                                                        <ng-container
+                                                            *ngIf="getProjectWiseCheckinCheckoutData(project.project_id).length > 0">
+                                                            <span
+                                                                *ngFor="let hours of getProjectWiseCheckinCheckoutData(project.project_id); let i=index">
+                                                                Hours:&nbsp;
+                                                                {{hours.hours ? hours.hours : '0'}}
+                                                            </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                            *ngIf="getProjectWiseCheckinCheckoutData(project.project_id).length == 0">
+                                                            Hours:&nbsp; 0
+                                                        </ng-container>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- <div class="popup">
+                    <span class="popuptext" id="myPopup">A Simple Popup!</span>
+                  </div> -->
+
+                <div class="addDailyStatus" *ngIf="dailyStatusInfo.length == 0 && !dailyFormStatus ">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <button class="btn btn-warning btn-sm" (click)="showAddForm()">
+                                <i class="fa fa-plus"></i> &nbsp; Add Daily Status</button>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="dailyStatusInfo.length > 0  && !dailyFormStatus">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-solid">
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <ul class="timeline timeline-inverse">
+                                            <!-- timeline time label -->
+                                            <li class="time-label">
+                                                <span>Timeline</span>
+                                            </li>
+                                            <!-- /.timeline-label -->
+                                            <!-- timeline item -->
+                                            <li class="time-content">
+                                                <i class="fa fa-envelope bg-blue"></i>
+
+                                                <div class="timeline-item"
+                                                    *ngFor="let row of dailyStatusInfo; let i = index">
+                                                    <h3 class="timeline-header">Added Daily Status at
+                                                        <span>{{dailyStatusInfo[i].created_date | date: 'MMM d, y
+                                                            HH:mm'}}</span>
+
+                                            <li class="time-label pull-right">
+                                                <button class="btn btn-primary btn-xs"  [disabled]= "ED_buttonstatus" *ngIf="!dailyFormStatus"
+                                                (click)="showEditForm(dailyStatusInfo[i])">Edit Status
+                                                </button>
+                                               
+                                                &nbsp;
+                                                    
+                                                <button class="btn btn-danger btn-xs" [disabled]= "ED_buttonstatus" placement="left" mwlConfirmationPopover
+                                                [popoverTitle]="popoverTitle" [popoverMessage]="popoverMessage" 
+                                                (confirm)="deleteDailyStatusById()" (cancel)="cancelClicked=true">Delete
+                                                </button>
+                                                
+                                            </li>
+                                            </h3>
+                                            <div class="timeline-body">
+
+                                                <dt>Last 24Hours </dt>
+                                                <dd style="white-space: pre-line;">{{dailyStatusInfo[i].last24hours}}
+                                                </dd>
+                                                <br />
+                                                <dt>Next 24Hours </dt>
+                                                <dd style="white-space: pre-line;">{{dailyStatusInfo[i].next24hours}}
+                                                </dd>
+                                                <br />
+                                                <dt>Obstacles </dt>
+                                                <dd style="white-space: pre-line;">{{dailyStatusInfo[i].obstacles}}</dd>
+                                                <br />
+                                                <dt>Location </dt>
+                                                <dd style="white-space: pre-line;">{{dailyStatusInfo[i].location}}</dd>
+                                                <br />
+                                                <dt>Total Hours</dt>
+                                                <dd>{{dailyStatusInfo[i].hours}}</dd>
+                                            </div>
+                                    </div>
+                                    </li>
+                                    <!-- END timeline item -->
+                                    </ul>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+         
+            
+    
+
+            
+
+            <div *ngIf="dailyFormStatus">
+                <div class="row">
+                    <div class="col-md-12 details-col">
+                        <div class="box box-danger">
+                            <div class="box-header">
+                                <h3 class="box-title">Details</h3>
+                            </div>
+                            <div class="box-body">
+                                <form method="post" [formGroup]="dailyStatusForm" novalidate autocomplete="off">
+                                    <div class="row">
+                                        <!-- IP mask -->
+                                        <!-- <span class="text-danger col-xs-12" *ngIf="status" style="text-align: center;">NOTE : FILL  ATLEAST  ONE  PROJECT  INFORMATION  COMPLETELY.</span> -->
+                                        <div class="col-md-12 form-group details-inner-col">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover" formArrayName="hourslist">
+                                                    <thead class="project-thead">
+                                                        <tr>
+                                                            <th style="width:15%">Project</th>
+                                                            <th style="width:28%">last 24Hours</th>
+                                                            <th style="width:28%">Next 24Hours</th>
+                                                            <th style="width:20%">Obstacles</th>
+                                                            <th style="width:15%">Hours</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let row of dailyStatusForm.get('hourslist').controls; let i = index"
+                                                            [formGroupName]="i">
+                                                            <td>
+                                                                <input type="text" class="form-control project-names"
+                                                                    name="project_name" formControlName="project_name"
+                                                                    #project_name>
+                                                            </td>
+                                                            <td>
+                                                                <textarea class="form-control"
+                                                                    formControlName="last24hours" name="last24hours"
+                                                                    placeholder="Last 24Hours"></textarea>
+                                                            </td>
+                                                            <td>
+                                                                <textarea class="form-control"
+                                                                    formControlName="next24hours" name="next24hours"
+                                                                    placeholder="Next 24Hours"></textarea>
+                                                            </td>
+                                                            <td>
+                                                                <textarea class="form-control"
+                                                                    formControlName="obstacles" name="obstacles"
+                                                                    placeholder="Obstacles"></textarea>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" class="form-control" name="hours"
+                                                                    formControlName="hours" placeholder="hours" #hours
+                                                                    (ngModelChange)="change(hours.value, project_name.value, i)">
+                                                                <span class="text-danger"
+                                                                    *ngIf="(i==j)">{{this.name1}}</span>
+                                                                <!-- <div *ngIf="hours.invalid && hours.errors." class="text-danger">
+                                                                    Daily limit for your project is 
+                                                                </div>  -->
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 location-col">
+                                                    <label>
+                                                        <span>
+                                                            <i class="fa fa-map-marker"></i> &nbsp; Location &nbsp; &nbsp;
+                                                        </span>
+                                                    </label>
+                                                    <select class="form-control" formControlName="location_id"
+                                                        name="location_id">
+                                                        <option value=""> -- Select Location Type -- </option>
+                                                        <ng-container
+                                                            *ngFor="let location of  locationsList;let i = index">
+                                                            <option *ngIf="location.status==1"
+                                                                [value]="location.location_id">
+                                                                <span> {{location.location_name}}</span>
+                                                            </option>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 location-err">
+                                                    <div *ngIf="location.invalid && (location.dirty || isSubmitted)"
+                                                        class="text-danger">
+                                                        <div class="error" *ngIf="location.errors.required">
+                                                            Location is required.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row text-center">
+                                                <div class="col-md-4 col-md-offset-4 form-group">
+                                                    <button type="button" *ngIf="buttonStatus"
+                                                        (click)="addDailyStatus(); status = true"
+                                                        class="btn btn-sm btn-success save-btn">
+                                                        <i class="fa fa-save"></i> &nbsp; Save </button>&nbsp;
+                                                    <button type="button" *ngIf="!buttonStatus"
+                                                        (click)="addDailyStatus();" class="btn btn-sm btn-success">
+                                                        <i class="fa fa-pencil"></i> &nbsp; Update
+                                                    </button>&nbsp;
+                                                    <button type="button" class="btn btn-sm btn-danger cls-btn"
+                                                        (click)="backToList()">
+                                                        <i class="fa fa-window-close-o"></i> Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+</div>
+</section>
+<!-- /.content -->
+</div>

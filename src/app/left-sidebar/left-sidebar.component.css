@@ -1,0 +1,18 @@
+.sidebar-menu > li {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+}
+.user-panel>.info>p{
+  text-overflow: ellipsis;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.user-panel>.info>a{
+  text-overflow: ellipsis;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+}
+.user-panel>.info {
+  padding: 5px 5px 5px 10px;
+}

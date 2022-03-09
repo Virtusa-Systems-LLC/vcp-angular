@@ -1,0 +1,61 @@
+
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+
+      <small></small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">
+        Employee Allocation
+      </li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <app-alert></app-alert>
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <b>{{title}}</b>
+      </div>
+      <div class="panel-body">
+
+        <div *ngIf="employeeAllocationList" class="table-responsive">
+          <div class="table-container">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <!-- <th>#</th> -->
+                <th>user ID</th>
+                <th>Employee Name</th>
+                <th>Projects</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let employee of  employeesList;let i = index">
+                <td>{{employee.user_id}}</td>
+                <td>{{employee.first_name | capitalize}}</td>
+                <td>
+                  <ng-container *ngIf="employee.project_name">
+                    <span *ngFor="let project of (employee.project_name).split(',')"
+                      class="badge badge-success badge_right">{{project | capitalize}}
+                    </span>
+                  </ng-container>
+                </td>
+              </tr>
+              <tr *ngIf="!(employeesList?.length>0)">
+                <td class="text-center" colspan="5"> No Employees Found </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

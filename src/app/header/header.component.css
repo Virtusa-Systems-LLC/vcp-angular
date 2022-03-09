@@ -1,0 +1,36 @@
+.user_image {
+  float: left;
+  width: 30px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-top: -8px;
+}
+.user-menu .dropdown-toggle {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.user-menu .user-image {
+  float: left;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  margin-right: 15px;
+  margin-top: -7px;
+  border: 2px solid #cacaca;
+}
+.user-footer .btn-default {
+  color: #666666;
+  box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #fff;
+  -webkit-box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #fff;
+  border: 0;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.skin-blue .main-header .navbar {
+  background-color: #25379a;
+}

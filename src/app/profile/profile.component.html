@@ -1,0 +1,391 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Profile
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#">
+          <i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">Profile</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <app-alert></app-alert>
+    <div class="row">
+      <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="box box-primary">
+          <div class="box-body box-profile">
+            <img *ngIf="userData && !userData.display_pic" class="profile-user-img img-responsive img-circle"
+              src="assets/images/dummy.jpg" alt="User profile picture">
+            <img *ngIf="userData && userData.display_pic" class="profile-user-img img-responsive img-circle"
+              [src]="domSanitizer.bypassSecurityTrustUrl(userData.display_pic)" alt="User profile picture">
+            <!-- <avatar *ngIf="!userData.display_pic" [name]="userData.display_name" [background]="'#00C0ED'" class="profile_user profile-user-img img-responsive img-circle"
+              [size]="100" [displayType]="'circle'"></avatar> -->
+            <!-- 
+            <input type="file" (change)="handleFileInput($event.target.files)" class="form-control">
+            <button type="button" (click)="updatePicture()" class="btn btn-success">
+              <i class="fa fa-pencil"></i> &nbsp; Update </button> -->
+            <h3 class="profile-username text-center">{{userData ? (userData.display_name | capitalize) : ''}}</h3>
+
+            <!-- <p class="text-muted text-center">{{roleInfo[userData.role].name}}</p> -->
+
+            <ul class="list-group list-group-unbordered" *ngIf="userData">
+              <li class="list-group-item">
+                <b>Role</b>
+                <a class="pull-right">
+                  <b>{{userData.role_name | capitalize}}</b>
+                </a>
+              </li>
+              <li class="list-group-item">
+                <b>Start Date</b>
+                <a class="pull-right">{{userData.start_date | date: 'dd/MM/yyyy'}}</a>
+              </li>
+              <li class="list-group-item">
+                <b>End Date</b>
+                <a class="pull-right">{{userData.end_date?(userData.end_date | date: 'dd/MM/yyyy') :' ------'}}</a>
+              </li>
+              <li class="list-group-item">
+                <b>Status</b>
+                <a class="pull-right">
+                  <span class="badge"
+                    [ngClass]="userData.status==1?'badge-success':'badge-danger'">{{userData.status == 1? 'Active' : 'In Active' }}</span>
+                </a>
+              </li>
+            </ul>
+
+            <!-- <a href="#" class="btn btn-primary btn-block">
+              <b>Follow</b>
+            </a> -->
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-9">
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#profile" (click)="resetProfile()" data-toggle="tab">Profile</a>
+            </li>
+            <li>
+              <a href="#settings" (click)="resetPassword()" data-toggle="tab">Settings</a>
+            </li>
+            <li>
+              <a href="#profilePic" (click)="profilePic()" data-toggle="tab">Profile Picture</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="active tab-pane" id="profile">
+              <!-- Post -->
+              <form method="post" class="form-horizontal" [formGroup]="profileForm" novalidate autocomplete="off">
+                <div class="form-group">
+                  <label for="inputName" class="col-sm-2 control-label">First Name</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="first_name" name="first_name" class="form-control"
+                      placeholder="First Name">
+                    <div *ngIf="firstName.invalid && (firstName.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="firstName.errors.required">
+                        First Name is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputLastName" class="col-sm-2 control-label">Last Name</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="last_name" name="last_name" class="form-control"
+                      placeholder="Last Name">
+                    <div *ngIf="lastName.invalid && (lastName.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="lastName.errors.required">
+                        Last Name is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputBloodGroup" class="col-sm-2 control-label">Blood Group:</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" formControlName="blood_group" name="blood_group">
+                      <option value=""> -- Select Blood Group -- </option>
+                      <option value="O+"> O+ </option>
+                      <option value="O-"> O- </option>
+                      <option value="A+"> A+ </option>
+                      <option value="A-"> A- </option>
+                      <option value="B+"> B+ </option>
+                      <option value="B-"> B- </option>
+                      <option value="AB+"> AB+ </option>
+                      <option value="AB-"> AB- </option>
+                    </select>
+                    <div *ngIf="bloodGroup.invalid && (bloodGroup.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="bloodGroup.errors.required">Blood Group is required. </div>
+                    </div>
+                  </div>
+                  <!-- /.input group -->
+                </div>
+
+                <!-- <div class="form-group">
+                  <label for="inputDesignation" class="col-sm-2 control-label">Designation</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="designation" name="designation" class="form-control"
+                      placeholder="Designation">
+                    <div *ngIf="designation.invalid && (designation.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="designation.errors.required">
+                        Designation is required.
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+
+                <div class="form-group">
+                  <label for="inputBirthdate" class="col-sm-2 control-label">Birthdate</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker formControlName="dob"
+                      placeholder="YYYY-MM-DD"
+                      [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-blue'  }">
+                    <div *ngIf="birthDate.invalid && (birthDate.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="birthDate.errors.required">
+                        Date is required.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+                  <label for="inputPhoneNumber" class="col-sm-2 control-label">Phone</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="phone_number" name="phone_number" class="form-control"
+                      placeholder="Phone Number">
+                    <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="phoneNumber.errors.required">
+                        Phone Number is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputPhoneNumber" class="col-sm-2 control-label">Phone Father</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="phone_father" name="phone_father" class="form-control"
+                      placeholder="Father Phone Number">
+                      <div *ngIf="phoneFather.invalid && (phoneFather.dirty || isSubmitted)" class="text-danger">
+                        <div class="error" *ngIf="phoneFather.errors.required">
+                          Phone Father is required.
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputPhoneNumber" class="col-sm-2 control-label">Phone Mother</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="phone_mother" name="phone_mother" class="form-control"
+                      placeholder="Mother Phone Number">
+                      <div *ngIf="phoneMother.invalid && (phoneMother.dirty || isSubmitted)" class="text-danger">
+                        <div class="error" *ngIf="phoneMother.errors.required">
+                          Phone Mother is required.
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputPhoneNumber" class="col-sm-2 control-label">Phone Brother</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="phone_brother" name="phone_brother" class="form-control"
+                      placeholder="Brother Phone Number">
+                      <div *ngIf="phoneBrother.invalid && (phoneBrother.dirty || isSubmitted)" class="text-danger">
+                        <div class="error" *ngIf="phoneBrother.errors.required">
+                          Phone Brother is required.
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputPhoneNumber" class="col-sm-2 control-label">Phone Sister</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" formControlName="phone_sister" name="phone_sister" class="form-control"
+                      placeholder="Sister Phone Number">
+                      <div *ngIf="phoneSister.invalid && (phoneSister.dirty || isSubmitted)" class="text-danger">
+                        <div class="error" *ngIf="phoneSister.errors.required">
+                          Phone Sister is required.
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="inputAddress" class="col-sm-2 control-label">Address</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" formControlName="address" name="address"
+                      placeholder="Address"></textarea>
+                    <div *ngIf="Address.invalid && (Address.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="Address.errors.required">
+                        Address is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="form-group">
+                  <label for="inputName" class="col-sm-2 control-label">Email</label>
+
+                  <div class="col-sm-10">
+                    <input type="email" formControlName="email" name="email" class="form-control" placeholder="Email">
+                    <div *ngIf="email.invalid && (email.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="email.errors.required">
+                        Email is required.
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10 text-center">
+                    <button type="submit" (click)="updateProfile()" class="btn btn-success">
+                      <i class="fa fa-pencil"></i> &nbsp;Update Profile</button>
+                  </div>
+                </div>
+              </form>
+              <!-- /.post -->
+
+            </div>
+
+            <div class="tab-pane" id="settings">
+              <form method="post" class="form-horizontal" [formGroup]="passwordForm" novalidate autocomplete="off">
+                <div class="form-group">
+                  <label for="inputName" class="col-sm-3 control-label">Current Password</label>
+
+                  <div class="col-sm-9">
+                    <input type="password" formControlName="current_password" name="current_password"
+                      class="form-control" placeholder="Current Password">
+                    <div *ngIf="currentPassword.invalid && (currentPassword.dirty || isSubmitted1)" class="text-danger">
+                      <div class="error" *ngIf="currentPassword.errors.required">
+                        Current Password is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputName" class="col-sm-3 control-label">New Password</label>
+
+                  <div class="col-sm-9">
+                    <input type="password" formControlName="new_password" name="new_password" class="form-control"
+                      placeholder="New Password">
+                    <div *ngIf="newPassword.invalid && (newPassword.dirty || isSubmitted1)" class="text-danger">
+                      <div class="error" *ngIf="newPassword.errors.required">
+                        New Password is required.
+                      </div>
+                      <div class="error" *ngIf="newPassword.errors.minlength">
+                        New Password must be at least 8 characters long.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="inputName" class="col-sm-3 control-label">Confirm Password</label>
+
+                  <div class="col-sm-9">
+                    <input type="password" formControlName="confirm_password" name="confirm_password"
+                      class="form-control" placeholder="Confirm Password">
+                    <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || isSubmitted1)" class="text-danger">
+                      <div class="error" *ngIf="confirmPassword.errors.required">
+                        Confirm Password is required.
+                      </div>
+                      <div class="error" *ngIf="confirmPassword.errors.minlength">
+                        Confirm Password must be at least 8 characters long.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-3 col-sm-9 text-center">
+                    <button type="submit" (click)="updatePassword()" class="btn btn-success">
+                      <i class="fa fa-lock"></i> &nbsp;Update Password</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="tab-pane" id="profilePic">
+              <form method="post" class="form-horizontal" novalidate autocomplete="off">
+
+                <div class="form-group">
+                  <!-- <div class="row"> -->
+                  <div class="col-sm-8">
+                    <div class="input-group input-file">
+                      <div class="form-control">
+                        <a href="javascript:void(0)" target="_blank" *ngIf="fileName">{{fileName}}</a>
+                      </div>
+                      <span class="input-group-addon">
+                        <a class='btn btn-primary' href='javascript:void(0)'>
+                          Browse
+                          <input type="file" accept="image/jpg, image/jpeg, image/png" name="file"
+                            (change)="fileChangeEvent($event)">
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4"></div>
+                  <br /><br />
+                  <!-- </div> -->
+                  <!-- <input type="file" (change)="fileChangeEvent($event)" /> -->
+                  <!-- <div class="row"> -->
+                  <div class="col-sm-7">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                      [aspectRatio]="1 / 1" [resizeToWidth]="225" format="png"
+                      (imageCroppedBase64)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                      (loadImageFailed)="loadImageFailed()"></image-cropper>
+                  </div>
+                  <div class="col-sm-5">
+                    <img *ngIf="croppedImage" [src]=" croppedImage " class="img img-thumbnail" />
+                  </div>
+                </div>
+                <!-- </div> -->
+
+                <div class="form-group ">
+                  <div class="col-sm-offset-3 col-sm-9 text-center ">
+                    <button type="button" (click)="updatePicture()" class="btn btn-success ">
+                      <i class="fa fa-picture-o"></i> &nbsp;Update Picture</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- /.tab-pane -->
+          </div>
+          <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

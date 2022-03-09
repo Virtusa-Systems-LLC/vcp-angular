@@ -1,0 +1,249 @@
+.time-entry-req select {
+  width: auto;
+  height: 30px;
+  background: #fff;
+  padding: 0px 10px;
+  border-radius: 5px;
+}
+.time-entry-req {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.time-entry-req .label-heading {
+  margin-bottom: 0px;
+}
+.download-btn-div {
+  text-align: center;
+  padding-bottom: 5px;
+}
+.pointer {
+  cursor: pointer;
+}
+.hide {
+  display: block;
+  color: red;
+}
+.table-container {
+  max-height: calc(100vh - 106px);
+  overflow: scroll;
+}
+.table-container::-webkit-scrollbar {
+  display: x;
+}
+table thead th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 0;
+  z-index: 1; /*we need it to make header fix*/
+  height: 70px;
+  text-align: center;
+  vertical-align: middle;
+}
+/* table tbody td {
+  position: -webkit-sticky; 
+  position: sticky;
+  left: 0;
+} */
+
+table thead th:nth-child(1) {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 999;
+}
+table thead th:nth-child(2) {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 40px;
+  z-index: 999;
+}
+table thead th:nth-child(3) {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 150px;
+  z-index: 999;
+}
+table tbody td:nth-child(1) {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 4;
+}
+table tbody td:nth-child(2) {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 40px;
+  z-index: 3;
+}
+table tbody td:nth-child(3) {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 150px;
+  z-index: 2;
+}
+
+/* Just to display it nicely: */
+thead th {
+  background: #222d32;
+  color: #fff;
+  font: message-box;
+  /* Ensure this stays above the emulated border right in tbody th {}: */
+  z-index: 5;
+}
+
+tbody th {
+  background: #fff;
+  border-right: 1px solid #090a0a94;
+  position: sticky;
+  /* Browsers tend to drop borders on sticky elements, so we emulate the border-right using a box-shadow to ensure it stays: */
+  box-shadow: 1px 0 0 0 #ccc;
+  z-index: 1;
+  left: 0;
+}
+
+/* tbody #rowdata{
+  position: sticky;
+  left: 0;
+  z-index: 10;
+} */
+/* table {
+    border-collapse: collapse;
+  } */
+
+td,
+th {
+  padding: 0.5em;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+  background-color: #222d32;
+  border-top: 0;
+  width: 10px;
+  color: white;
+  font-family: "Roboto";
+  font-size: 14px;
+  letter-spacing: 0.6px;
+}
+
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  background-color: white;
+  border: 1px solid #bbbbbb;
+  vertical-align: middle;
+}
+
+.prev-next-mnth {
+  position: relative;
+  background: #8a8a8a;
+  z-index: 5;
+  width: 280px;
+  border-radius: 15px;
+}
+input {
+  display: none;
+}
+.bckgrnd,
+.labels {
+  width: 140px;
+  height: 30px;
+  text-align: center;
+  display: inline-block;
+  padding-top: 5px;
+  z-index: 2;
+  cursor: pointer;
+  margin-bottom: 0px;
+  max-width: 100%;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.6px;
+}
+.bckgrnd {
+  background: #000;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  border-radius: 15px;
+}
+#rad1:checked ~ .bckgrnd {
+  transform: translateX(0);
+  transition: transform 0.5s ease-in-out;
+}
+#rad2:checked ~ .bckgrnd {
+  transform: translateX(140px);
+  transition: transform 0.5s ease-in-out;
+}
+#rad3:checked ~ .bckgrnd {
+  transform: translateX(241px);
+  transition: transform 0.5s ease-in-out;
+}
+
+.select-mnth {
+  display: flex;
+  align-items: center;
+}
+
+.currentmonth-container table,
+.previous-month-container table {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0px;
+}
+.sticky-th,
+.sticky-td,
+.left-sticky-col {
+  text-align: center; 
+  vertical-align: middle;
+}
+.sticky-tr {
+  position: sticky;
+  top: 70px;
+  z-index: 999;
+  text-align: center;
+}
+.sticky-tr td,
+.left-sticky-col {
+  background: #eeeeee !important;
+}
+/* tbody tr{
+  position: sticky;
+  top: 67px;
+  z-index: 999;
+} */
+
+/* radiobutton in Button style */
+.time-entry-rd-button {
+  margin: 0px 5px 0px 0px;
+  width: 50px;
+  background-color: #efefef;
+  border-radius: 0px;
+  /* border: 1px solid #d0d0d0; */
+  overflow: auto;
+  float: left;
+}
+.time-entry-rd-button label {
+  float: left;
+  width: 100%;
+  margin-bottom: 0px;
+}
+.time-entry-rd-button label span {
+  text-align: center;
+  display: block;
+  border-radius: 4px;
+  padding: 3px 0px;
+  cursor: pointer;
+  background: #d0d0d0;
+}
+.time-entry-rd-button label input {
+  position: absolute;
+  top: -20px;
+  opacity: 0;
+}
+.time-entry-rd-button input:checked + span {
+  background: #000000;
+  color: #fff;
+}
+/* radiobutton in Button style  */

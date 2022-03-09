@@ -1,0 +1,149 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/dashboard']">
+                    <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li class="active">
+                Locations
+            </li>
+        </ol>
+    </section>
+    <section class="content">
+        <app-alert></app-alert>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <b>{{title | capitalize}}</b>
+                <button *ngIf="locationsListStatus && !locationViewStatus"
+                    class="btn btn-warning btn-sm pull-right custom_btn_size" (click)="showAddForm()">
+                    <i class="fa fa-plus"></i> Add</button>
+                <button *ngIf="!locationsListStatus || locationViewStatus"
+                    class="btn btn-danger btn-sm pull-right custom_btn_size" (click)="backToList()">
+                    <i class="fa fa-arrow-left"></i> Back</button>
+            </div>
+            <div class="panel-body">
+                <div *ngIf="locationsListStatus && !locationViewStatus" class="table-responsive">
+                    <div class="table-container">
+                    <table class="table  table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Location Name</th>
+                                <th>Country</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let location of  locationsList;let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{location.location_name | capitalize}}</td>
+                                <td>{{location.country}}</td>
+                                <td>
+                                    <ui-switch checkedLabel="ACTIVE" size="small" (valueChange)=" openModal(template, location); onChange($event)" [checked]="location.status == 1 ? true : false" uncheckedLabel="IN ACTIVE"></ui-switch>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn btn-xs btn-primary"
+                                        (click)="showEditForm(location)">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>&nbsp;
+                                   
+                                </td>
+                                
+                            </tr>
+                            <tr *ngIf="!(locationsList?.length>0)">
+                                <td class="text-center" colspan="7"> No Locations Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                <div *ngIf="!locationsListStatus && !locationViewStatus">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="box box-danger">
+                                <div class="box-header">
+                                    <h3 class="box-title">Details</h3>
+                                </div>
+                                <div class="box-body">
+                                    <form method="post" [formGroup]="locationForm" novalidate autocomplete="off">
+                                        <div class="row">
+                                            <!-- Date mm/dd/yyyy -->
+                                            <div class="col-md-6 form-group">
+                                                <label>Location Name :</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-globe"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control"
+                                                        formControlName="location_name" name="location_name"
+                                                        placeholder="Name">
+                                                </div>
+                                                <div *ngIf="locationName.invalid && (locationName.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="locationName.errors.required">
+                                                        Location Name is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 form-group">
+                                                <label>Country :</label>
+                                                <select class="form-control" formControlName="country" name="country">
+                                                    <option value=""> -- Select --</option>
+                                                    <option value="India">India </option>
+                                                    <option value="USA"> USA </option>
+                                                </select>
+                                                <div *ngIf="Country.invalid && (Country.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="Country.errors.required">
+                                                        Country is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="row text-center">
+                                            <div class="col-md-12">
+                                                <button type="button" *ngIf="buttonStatus" (click)="addLocation()"
+                                                    class="btn btn-sm btn-success">
+                                                    <i class="fa fa-save"></i> &nbsp; Save </button>&nbsp;
+                                                <button type="button" *ngIf="!buttonStatus" (click)="updateLocation()"
+                                                    class="btn btn-sm btn-success">
+                                                    <i class="fa fa-pencil"></i> &nbsp; Update </button>&nbsp;
+                                                <button type="button" class="btn btn-sm btn-danger" (click)="backToList()">
+                                                    <i class="fa fa-window-close-o"></i> Close</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<ng-template #template>
+    <div class="alert-box">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Status Confirmation Message</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedLocation">
+            Are you sure Do you really want to {{this.selectedLocation.status == 1 ? 'Inactivate':'Activate'}}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="close()">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="confirm()">Confirm</button>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,345 @@
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img *ngIf="userData && !userData.display_pic" src="assets/images/dummy.jpg" class="img-circle"
+          alt="User Image">
+        <!-- <avatar *ngIf="!userData.display_pic" [name]="userData.first_name" [background]="'#00C0ED'" class="img-circle" [size]="50"
+          [displayType]="'circle'"></avatar> -->
+        <img *ngIf="userData && userData.display_pic" [src]="userData.display_pic" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p>{{userData ? (userData.first_name | capitalize) : ''}}</p>
+        <a href="javascript: void(0);">
+          <i class="fa fa-circle text-success"></i> Online</a>
+      </div>
+    </div>
+
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="header">MAIN NAVIGATION</li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'dashboard' && userData.role == 1)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('dashboard')">
+          <i class="fa fa-dashboard"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 2"
+      [ngClass]="{'active': (this._api.livePage == 'dashboard' && userData.role == 2)}">
+      <a href="javascript: void(0);" (click)="sidebarClick('dashboard')">
+        <i class="fa fa-dashboard"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+      <li class="treeview" *ngIf="userData && userData.role == 3"
+        [ngClass]="{'active': (this._api.livePage == 'dashboard' && userData.role == 3)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('dashboard')">
+          <i class="fa fa-dashboard"></i>
+          <span> Dashboard</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'dashboard' && userData.role == 4)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('dashboard')">
+          <i class="fa fa-dashboard"></i>
+          <span> Dashboard</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'employee' && userData.role == 1)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('users')">
+          <i class="fa fa-users"></i>
+          <span>Users</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 2"
+        [ngClass]="{'active': (this._api.livePage == 'employees' && userData.role == 2)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('employees')">
+          <i class="fa fa-users"></i>
+          <span>Employees</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 2"
+        [ngClass]="{'active': (this._api.livePage == 'user' && userData.role == 2)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('user')">
+          <i class="fa fa-users"></i>
+          <span>Current Employees Report</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+      [ngClass]="{'active': (this._api.livePage == 'user' && userData.role == 1)}">
+      <a href="javascript: void(0);" (click)="sidebarClick('user')">
+        <i class="fa fa-users"></i>
+        <span>Current Month Report</span>
+      </a>
+    </li>
+    <li class="treeview" *ngIf="userData && userData.role == 1"
+    [ngClass]="{'active': (this._api.livePage == 'employeeprojectmatrix' && userData.role == 1)}">
+    <a href="javascript: void(0);" (click)="sidebarClick('employeeprojectmatrix')">
+      <i class="fa fa-users"></i>
+      <span>Employee Projects Matrix</span>
+    </a>
+  </li>
+      <!-- <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'users' && userData.role == 1)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('employeereport')">
+          <i class="fa fa-user"></i>
+          <span>Employee Status</span>
+        </a>
+      </li> -->
+      <li class="treeview" *ngIf="userData && userData.role == 3"
+        [ngClass]="{'active': (this._api.livePage == 'employees' && userData.role == 3)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('employees')">
+          <i class="fa fa-users"></i>
+          <span>Employees</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'projects'  && userData.role == 1) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('projects')">
+          <!-- <i class="fa fa-file-code-o"></i> -->
+          <i class="fa fa-pie-chart"></i>
+          <span> Projects</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 2"
+      [ngClass]="{'active': (this._api.livePage == 'projects'  && userData.role == 2) }">
+      <a href="javascript: void(0);" (click)="sidebarClick('projects')">
+        <!-- <i class="fa fa-file-code-o"></i> -->
+        <i class="fa fa-pie-chart"></i>
+        <span> Projects</span>
+      </a>
+    </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'projects'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('projects')">
+          <!-- <i class="fa fa-file-code-o"></i> -->
+          <i class="fa fa-pie-chart"></i>
+          <span> Projects</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 3"
+        [ngClass]="{'active': (this._api.livePage == 'projects'  && userData.role == 3) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('projects')">
+          <!-- <i class="fa fa-file-code-o"></i> -->
+          <i class="fa fa-pie-chart"></i>
+          <span> Projects</span>
+        </a>
+      </li>
+      <!-- <li class="treeview" *ngIf="userData && userData.role == 3"
+      [ngClass]="{'active': (this._api.livePage == 'taskslist' && userData.role == 3)}">
+      <a href="javascript: void(0);" (click)="sidebarClick('taskslist')">
+          <i class="fa fa-file-code-o"></i>
+        <span>Tasks list</span>
+      </a>
+    </li>
+    <li class="treeview" *ngIf="userData && userData.role == 3"
+      [ngClass]="{'active': (this._api.livePage == 'pendingtaskslist' && userData.role == 3)}">
+      <a href="javascript: void(0);" (click)="sidebarClick('pendingtaskslist')">
+          <i class="fa fa-file-code-o"></i>
+        <span>Pending Tasks list</span>
+      </a>
+    </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'taskslist'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('taskslist')">
+          <i class="fa fa-file-code-o"></i>
+          <span>Tasks list</span>
+        </a>
+      </li> -->
+      <li class="treeview" *ngIf="userData && userData.role == 3"
+        [ngClass]="{'active': (this._api.livePage == 'projectManagerTimeApproval'  && userData.role == 3) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('projectManagerTimeApproval')">
+          <i class="fa fa-clock-o"></i>
+          <span>Daily Project Time Approval</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 3"
+        [ngClass]="{'active': (this._api.livePage == 'projectManagerHourlyTimeApproval'  && userData.role == 3) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('projectManagerHourlyTimeApproval')">
+          <i class="fa fa-clock-o"></i>
+          <span>Hourly Project Time Approval</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'projectAllocation'  && userData.role == 1)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('projectAllocation')">
+          <i class="fa fa-arrow-circle-o-right"></i>
+          <span>Project Allocation</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'employeeAllocations'  && userData.role == 1)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('employeeAllocations')">
+          <i class="fa fa-arrow-circle-o-right"></i>
+          <span>Employee Allocation</span>
+        </a>
+      </li>
+      <!-- <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'employeeAllocation'  && userData.role == 1)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('employeeAllocation')">
+          <i class="fa fa-arrow-circle-o-right"></i>
+          <span>Employee Allocation</span>
+        </a>
+      </li> -->
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'locations' && userData.role == 1)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('locations')">
+          <i class="fa fa-globe"></i>
+          <span>Locations</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'role' && userData.role == 1)}">
+        <a href="javascript: void(0);" (click)="sidebarClick('role')">
+          <i class="fa fa-address-card"></i>
+          <span>Role</span>
+        </a>
+      </li>
+      <!-- <li class="header" *ngIf="userData && userData.role == 4">Timesheets</li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': this._api.livePage == 'userdailytimesheets'}">
+        <a href="javascript: void(0);" (click)="sidebarClick('userdailytimesheets')">
+          <i class="fa fa-calendar"></i>
+          <span>Daily Timesheets</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': this._api.livePage == 'userweeklytimesheets'}">
+        <a href="javascript: void(0);" (click)="sidebarClick('userweeklytimesheets')">
+          <i class="fa fa-calendar"></i>
+          <span>Weekly Timesheets</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': this._api.livePage == 'usermonthlytimesheets'}">
+        <a href="javascript: void(0);" (click)="sidebarClick('usermonthlytimesheets')">
+          <i class="fa fa-calendar"></i>
+          <span>Monthly Timesheets</span>
+        </a>
+      </li> -->
+      <!-- <li class="treeview" [ngClass]="{'active': this._api.livePage == 'meetings'}">
+        <a href="javascript: void(0);" (click)="sidebarClick('meetings')">
+          <i class="fa fa-meetup"></i>
+          <span>Meetings</span>
+        </a>
+      </li>
+      <li class="treeview" [ngClass]="{'active': this._api.livePage == 'tasks'}">
+        <a href="javascript: void(0);" (click)="sidebarClick('tasks')">
+          <i class="fa fa-tasks"></i>
+          <span>Tasks</span>
+        </a>
+      </li> -->
+
+      <li class="header" *ngIf="userData && userData.role == 4">DAILY STATUS</li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'userDailyStatus'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('userDailyStatus')">
+          <i class="fa fa-calendar"></i>
+          <span> Daily Project Status</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'employeehourlyTimeSheet'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('employeehourlyTimeSheet')">
+          <i class="fa fa-clock-o"></i>
+          <span> Hourly Project Status</span>
+        </a>
+      </li>
+      <!-- <li class="treeview" *ngIf="userData && userData.role == 4"
+      [ngClass]="{'active': (this._api.livePage == 'userMonthly'  && userData.role == 4) }">
+      <a href="javascript: void(0);" (click)="sidebarClick('userMonthly')">
+        <i class="fa fa-clock-o"></i>
+        <span> Monthly Project Status</span>
+      </a>
+    </li> -->
+      <li class="header" *ngIf="userData && userData.role == 1">DAILY STATUS</li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'adminDailyStatus'  && userData.role == 1) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('adminDailyStatus')">
+          <i class="fa fa-calendar"></i>
+          <span> Employees Daily Status</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 1"
+        [ngClass]="{'active': (this._api.livePage == 'employeeHourlyStatus'  && userData.role == 1) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('employeeHourlyStatus')">
+          <i class="fa fa-calendar"></i>
+          <span>Employees Hourly Status</span>
+        </a>
+      </li>
+      <li class="header" *ngIf="userData && userData.role == 3">DAILY STATUS</li>
+      <li class="treeview" *ngIf="userData && userData.role == 3"
+        [ngClass]="{'active': (this._api.livePage == 'projectmanagerDailyStatus'  && userData.role == 3) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('projectmanagerDailyStatus')">
+          <i class="fa fa-calendar"></i>
+          <span>Daily Status</span>
+        </a>
+      </li>  
+          <li class="header" *ngIf="userData && userData.role == 2">DAILY STATUS</li>
+           <li class="treeview" *ngIf="userData && userData.role == 2"
+           [ngClass]="{'active': (this._api.livePage == 'adminDailyStatus'  && userData.role == 2) }">
+           <a href="javascript: void(0);" (click)="sidebarClick('adminDailyStatus')">
+             <i class="fa fa-calendar"></i>
+             <span> Employees Daily Status</span>
+           </a>
+          </li>
+        <li class="treeview" *ngIf="userData && userData.role == 2"
+         [ngClass]="{'active': (this._api.livePage == 'employeeHourlyStatus'  && userData.role == 2) }">
+         <a href="javascript: void(0);" (click)="sidebarClick('employeeHourlyStatus')">
+          <i class="fa fa-calendar"></i>
+          <span>Employees Hourly Status</span>
+         </a>
+       </li>
+       <li class="treeview" *ngIf="userData && userData.role == 2"
+       [ngClass]="{'active': (this._api.livePage == 'userDailyStatus'  && userData.role == 2) }">
+       <a href="javascript: void(0);" (click)="sidebarClick('userDailyStatus')">
+         <i class="fa fa-calendar"></i>
+         <span> Daily Project Status</span>
+       </a>
+     </li>
+      <!-- <li class="header" *ngIf="userData && userData.role == 4">APPROVAL STATUS</li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'dailyTimeApprovalStatus'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('dailyTimeApprovalStatus')">
+            <i class="fa fa-clock-o"></i>
+          <span>Daily Time Approval Status</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'hourlyTimeApprovalStatus'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('hourlyTimeApprovalStatus')">
+            <i class="fa fa-clock-o"></i>
+          <span>Hourly Time Approval Status</span>
+        </a>
+      </li>
+      <li class="header" *ngIf="userData && userData.role == 4">INVENTORY INFORMATION</li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'laptop'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('laptop')">
+            <i class="fa fa-laptop" aria-hidden="true"></i>
+          <span>Laptop</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'headset'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('headset')">
+            <i class="fa fa-headphones" aria-hidden="true"></i>
+          <span>Headset</span>
+        </a>
+      </li>
+      <li class="treeview" *ngIf="userData && userData.role == 4"
+        [ngClass]="{'active': (this._api.livePage == 'wifi'  && userData.role == 4) }">
+        <a href="javascript: void(0);" (click)="sidebarClick('wifi')">
+            <i class="fa fa-wifi" aria-hidden="true"></i>
+          &nbsp;<span>Wifi</span>
+        </a>
+      </li> -->
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

@@ -1,0 +1,55 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+
+      <small></small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">
+        Employees
+      </li>
+    </ol>
+  </section>
+
+  <section class="content">
+    <app-alert></app-alert>
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <b>{{title | capitalize}}</b>
+      </div>
+      <div class="panel-body">
+
+        <div *ngIf="usersListStatus" class="table-responsive">
+          <table class="table  table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Project Name</th>
+                <th>Employees</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of usersList;let i = index">
+                <td>{{i+1}}</td>
+                <td>{{user.project_name}}</td>
+                <td><span *ngFor="let users of  (user.user_names).split(',')"
+                    class="badge badge-success badge_right">{{users}}</span></td>
+
+              </tr>
+              <tr *ngIf="!(usersList?.length>0)">
+                <td class="text-center" colspan="7"> No Employees Found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>

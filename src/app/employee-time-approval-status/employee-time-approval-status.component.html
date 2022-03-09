@@ -1,0 +1,97 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/dashboard']">
+                    <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li class="active">
+                Time Approval
+            </li>
+        </ol>
+    </section>
+    <section class="content">
+        <app-alert></app-alert>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <b>{{title | capitalize}}</b>
+            </div><br />
+            <div class="text-center">
+                <input name="approvedListStatus" [(ngModel)]="approvedListStatus" type="radio" [value]="true"
+                    [checked]="approvedListStatus" /> Not Approved &nbsp;&nbsp;
+
+                <input name="approvedListStatus" [(ngModel)]="approvedListStatus" type="radio" [value]="false"
+                    [checked]="!approvedListStatus" /> Approved
+            </div>
+
+            <div *ngIf="approvedListStatus">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>ProjectName</th>
+                                    <th>Last24 Hours</th>
+                                    <th>Hours</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let data of dailyList | paginate: { itemsPerPage: 10, currentPage: p}">
+                                <tr *ngIf="data.approved === 0">
+                                    <td>{{data.date | date: 'MM/dd/yy'}}</td>
+                                    <td>{{data.project_name}}</td>
+                                    <td style="white-space: pre-line;">{{data.last24hours}}</td>
+                                    <td>{{data.hours}}</td>
+                                    <td><span
+                                            class="badge badge-danger">{{data.approved == 1? 'Approved' : 'Not Approved'}}
+                                        </span></td>
+                                </tr>
+                                <tr *ngIf="!(dailyList?.length>0)">
+                                    <td class="text-center" colspan="7"> No Time Approvals Found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!approvedListStatus">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>ProjectName</th>
+                                    <th>Last24 Hours</th>
+                                    <th>Hours</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let data of dailyList | paginate: { itemsPerPage: 15, currentPage: p}">
+                                <tr *ngIf="data.approved === 1">
+                                    <td>{{data.date | date: 'MM/dd/yy'}}</td>
+                                    <td>{{data.project_name}}</td>
+                                    <td style="white-space: pre-line;">{{data.last24hours}}</td>
+                                    <td>{{data.hours}}</td>
+                                    <td><span
+                                            class="badge badge-success">{{ data.approved == 1? 'Approved' : 'Not Approved' }}
+                                        </span></td>
+                                </tr>
+                                <tr *ngIf="!(dailyList?.length>0)">
+                                    <td class="text-center" colspan="7"> No Time Approvals Found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

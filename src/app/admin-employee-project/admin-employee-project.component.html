@@ -1,0 +1,536 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+
+  <!-- Main content -->
+  <section class="content">
+    <app-alert></app-alert>
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <b>{{ title }}</b>
+        &nbsp;&nbsp;&nbsp;<input type="text" *ngIf="projectListStatus && !projectViewStatus"
+          placeholder="Search Project" [(ngModel)]="term" />
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+
+
+      <button *ngIf="projectListStatus && !projectViewStatus && !addProjectflag"
+        class="btn btn-danger btn-sm pull-center custom_btn_size" (click)="showProjectReports()">
+        <i class="fa fa-eye"></i> Projects Report Summary
+      </button>
+        <button *ngIf="projectListStatus && !projectViewStatus"
+          class="btn btn-warning btn-sm pull-right custom_btn_size" (click)="showAddForm()">
+          <i class="fa fa-plus"></i> Add
+        </button>
+
+        <button *ngIf="!projectListStatus || projectViewStatus || projectreportflag"
+          class="btn btn-danger btn-sm pull-right custom_btn_size" (click)="backToList()">
+          <i class="fa fa-arrow-left"></i> Back
+        </button>
+
+      </div>
+      <div class="panel-body">
+        <div *ngIf="projectListStatus && !projectViewStatus" class="table-responsive">
+          <div class="form-group">
+            <strong>Project Status Filter</strong> &nbsp; &nbsp;
+            <select class="Filter" id="filters" (change)="statusFilterChanged($event)" (onmousedown)="setFilterFlag()">
+              <option value="3"></option>
+              <option value="1">Active</option>
+              <option value="0">Inactive</option>
+              <!-- <option value=any>Both</option> -->
+            </select>
+
+            &nbsp; &nbsp; &nbsp;
+
+            <strong>Billable Project Filter</strong> &nbsp; &nbsp;
+            <select class="Filter" id="filters1" (change)="billableFilterChanged($event)" (onmousedown)="setFilterFlag()">
+              <option value="3"></option>
+              <option value="1">Billable</option>
+              <option value="0">Non-Billable</option>
+              <!-- <option value=any>Both</option> -->
+            </select>
+            &nbsp; &nbsp; &nbsp;
+            <input type="reset" id="clearFilter" class="pure-button pure-button-primary" (click)= "clearCurrentmonthFilter()" value="Clear filters">
+          </div>
+          <div class="table-container">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th (click)="sorting('project_id')">Project ID<i class="fa fa-sort" ></i></th>
+                <th (click)="sorting('project_name')">Name<i class="fa fa-sort" ></i></th>
+                <th (click)="sorting('last_month_total_hours_worked')">Hours - Previous month<i class="fa fa-sort" ></i></th>
+                <th (click)="sorting('current_month_total_hours_worked')">Hours - Current month<i class="fa fa-sort" ></i></th>
+                <!-- <th (click)="sorting('status')">Status<i class="fa fa-sort" ></i></th> -->
+                <!-- <th>Actions</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let project of filteredProjectStatuslist |orderBy : key: reverse ; let i = index
+                ">
+                <td>YPI{{project.project_id}}</td>
+                <td id="parent" href="javascript:void(0)" (mouseover)="showViewEmployees(project);" (click)="showViewForm(project); showDetailForm()"
+                style="cursor: pointer;">{{ project.project_name | capitalize }}
+                <div id="popup" class="black_overlay" *ngFor="let project of CurrentProjectSummaryReport">{{project.first_name}} - {{project.total_monthly_hours}} hours</div>
+              </td>
+                <td href="javascript:void(0)" (click)="showViewForm(project); showDetailForm()"
+                  style="cursor: pointer;" title="Click For Previous Month Details">
+                  {{ project.last_month_total_hours_worked }}
+                </td>
+                <td href="javascript:void(0)" (click)="showViewForm1(project); showDetailForm1()"
+                style="cursor: pointer;" title="Click For Current Month Details.">{{ project.current_month_total_hours_worked }}</td>
+              </tr>
+              <tr *ngIf="!(projectsList?.length > 0)">
+                <td class="text-center" colspan="7">No Projects Found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+
+      <!-- <div id="popup" *ngFor="let project of projectDetailReport">
+        <td>{{ project.first_name | capitalize }}</td>
+      </div> -->
+
+        <div *ngIf="projectViewStatus && !projectViewStatus1 &&!addProjectflag">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box box-solid">
+                <!-- /.box-header -->
+                <!-- <div class="box-body">
+                  <dl class="dl-horizontal">
+                    <dt>Project ID :</dt>
+                    <dd>YPI{{ singleProject.project_id }}</dd>
+                    <br />
+                    <dt>Project Name :</dt>
+                    <dd>{{ singleProject.project_name }}</dd>
+                    <br />
+                   
+                    <dt>Start Date :</dt>
+                    <dd>{{ singleProject.start_date | date: "MM/dd/yy" }}</dd>
+                    <br />
+                   
+                  </dl>
+                </div> -->
+                <h3 class="box-title">
+                  Total hours spent by each employee last month&nbsp; &nbsp;
+                  &nbsp; &nbsp;<a href="javascript:void(0)" colspan="7" class="s-icon-btn s-export-to-excel-15px"
+                    title="Download excel report" (click)="exporttable1()">
+                    <i class="fa fa-download"></i>
+                  </a>
+                </h3>
+                <div *ngIf="projectViewStatus" class="table">
+                  <table class="table table-bordered" id="summary">
+                    <thead>
+                      <tr>
+                        <!-- <th>Sl no.</th> -->
+                        <th>Name</th>
+                        <th>Hours</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                          let project of projectDetailReport | orderBy : key: reverse ;
+                          let i = index
+                        ">
+                        <!-- <td>{{ i + 1 }}</td> -->
+                        <td>{{ project.first_name | capitalize }}</td>
+                        <td>
+                          {{
+                          project.total_monthly_hours
+                          ? project.total_monthly_hours
+                          : " - "
+                          }}
+                        </td>
+                      </tr>
+                      <tr *ngIf="!(projectsList?.length > 0)">
+                        <td class="text-center" colspan="7">
+                          No Projects Found
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3 class="box-title">
+                  Work done in this project last month&nbsp; &nbsp; &nbsp;
+                  &nbsp;
+                  <a href="javascript:void(0)" class="s-icon-btn s-export-to-excel-15px" title="Download excel report"
+                    (click)="exporttable2()">
+                    <i class="fa fa-download"></i>
+                  </a>
+                </h3>
+                <div *ngIf="projectViewStatus" class="table">
+                  <div class="table-container">
+                    <table class="table table-bordered" id="detail">
+                      <thead>
+                        <tr>
+                          <th (click)="sorting('date')">Date<i class="fa fa-sort" ></i></th>
+                          <th (click)="sorting('first_name')">Name<i class="fa fa-sort" ></i></th>
+                          <th (click)="sorting('hours')">Hours<i class="fa fa-sort" ></i></th>
+                          <th >Tasks Completed</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="
+                          let project of projectSummaryReport | orderBy : key: reverse ; let i = index">
+                          <td>{{ project.date | capitalize }}</td>
+                          <td>{{ project.first_name | capitalize }}</td>
+                          <td>{{ project.hours ? project.hours : " - " }}</td>
+                          <td>
+                            {{ project.work_done ? project.work_done : " - " }}
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="projectViewStatus1">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box box-solid">
+                <!-- /.box-header -->
+                <!-- <div class="box-body">
+                  <dl class="dl-horizontal">
+                    <dt>Project ID :</dt>
+                    <dd>YPI{{ singleProject.project_id }}</dd>
+                    <br />
+                    <dt>Project Name :</dt>
+                    <dd>{{ singleProject.project_name }}</dd>
+                    <br />
+                   
+                    <dt>Start Date :</dt>
+                    <dd>{{ singleProject.start_date | date: "MM/dd/yy" }}</dd>
+                    <br />
+                   
+                  </dl>
+                </div> -->
+                <h3 class="box-title">
+                  Total hours spent by each employee in the current month&nbsp; &nbsp;
+                  &nbsp; &nbsp;<a href="javascript:void(0)" colspan="7" class="s-icon-btn s-export-to-excel-15px"
+                    title="Download excel report" (click)="exporttable1()">
+                    <i class="fa fa-download"></i>
+                  </a>
+                </h3>
+                <div *ngIf="projectViewStatus1" class="table">
+                  <table class="table table-bordered" id="summary">
+                    <thead>
+                      <tr>
+                        <!-- <th>Sl no.</th> -->
+                        <th>Name</th>
+                        <th>Hours</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                          let project of CurrentProjectSummaryReport | orderBy : key: reverse ;
+                          let i = index
+                        ">
+                        <!-- <td>{{ i + 1 }}</td> -->
+                        <td>{{ project.first_name | capitalize }}</td>
+                        <td>
+                          {{
+                          project.total_monthly_hours
+                          ? project.total_monthly_hours
+                          : " - "
+                          }}
+                        </td>
+                      </tr>
+                      <tr *ngIf="!(projectsList?.length > 0)">
+                        <td class="text-center" colspan="7">
+                          No Projects Found
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3 class="box-title">
+                  Work done in this project in the current month&nbsp; &nbsp; &nbsp;
+                  &nbsp;
+                  <a href="javascript:void(0)" class="s-icon-btn s-export-to-excel-15px" title="Download excel report"
+                    (click)="exporttable2()">
+                    <i class="fa fa-download"></i>
+                  </a>
+                </h3>
+                <div *ngIf="projectViewStatus1" class="table">
+                  <div class="table-container">
+                    <table class="table table-bordered" id="detail">
+                      <thead>
+                        <tr>
+                          <th (click)="sorting('date')">Date<i class="fa fa-sort" ></i></th>
+                          <th (click)="sorting('first_name')">Name<i class="fa fa-sort" ></i></th>
+                          <th (click)="sorting('hours')">Hours<i class="fa fa-sort" ></i></th>
+                          <th >Tasks Completed</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="
+                          let project of currentprojectDetailReport | orderBy : key: reverse ; let i = index">
+                          <td>{{ project.date | capitalize }}</td>
+                          <td>{{ project.first_name | capitalize }}</td>
+                          <td>{{ project.hours ? project.hours : " - " }}</td>
+                          <td>
+                            {{ project.work_done ? project.work_done : " - " }}
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="addProjectflag">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box box-danger">
+                <div class="box-header">
+                  <h3 class="box-title">Details</h3>
+                </div>
+                <div class="box-body">
+                  <form method="post" [formGroup]="projectForm" novalidate autocomplete="off">
+                    <div class="row">
+                      <!-- Date mm/dd/yyyy -->
+                      <div class="col-md-4 form-group">
+                        <label>Title :</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                          </div>
+                          <input type="text" class="form-control" formControlName="project_name" name="project_name"
+                            placeholder="Project Name" />
+                        </div>
+                        <div *ngIf="
+                            getTitle.invalid && (getTitle.dirty || isSubmitted)
+                          " class="text-danger">
+                          <div class="error" *ngIf="getTitle.errors.required">
+                            Project Name is required.
+                          </div>
+                        </div>
+                        <!-- /.input group -->
+                      </div>
+
+                      <div class="col-md-4 form-group">
+                        <label>Project Manager :</label>
+                        <select class="form-control" formControlName="projectManager" name="projectManager">
+                          <option value="">-- Select --</option>
+                          <ng-container *ngFor="let user of usersList; let i = index">
+                            <option *ngIf="user.role == 3" [value]="user.user_id">
+                              <span>{{ user.first_name }}</span>
+                            </option>
+                          </ng-container>
+                        </select>
+                        <!-- /.input group -->
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label>Project Type:</label>
+                        <select class="form-control" formControlName="project_type" name="project_type">
+                          <option value="">-- Select Project Type --</option>
+                          <option value="0">Daily Timesheet</option>
+                          <option value="1">Weekly Timesheet</option>
+                          <option value="2">Monthly Timesheet</option>
+                          <option value="3">Hourly Timesheet</option>
+                        </select>
+                        <div *ngIf="
+                            timesheetMode.invalid &&
+                            (timesheetMode.dirty || isSubmitted)
+                          " class="text-danger">
+                          <div class="error" *ngIf="timesheetMode.errors.required">
+                            Project Type is required.
+                          </div>
+                        </div>
+                        <!-- /.input group -->
+                      </div>
+                      <!-- /.form group -->
+                      <!-- IP mask -->
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 form-group">
+                        <label>Start Date:</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+
+                          <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker formControlName="start_date"
+                            placeholder="YYYY-MM-DD" [bsConfig]="{
+                              dateInputFormat: 'YYYY-MM-DD',
+                              containerClass: 'theme-blue'
+                            }" />
+                        </div>
+                        <div *ngIf="
+                            startDate.invalid &&
+                            (startDate.dirty || isSubmitted)
+                          " class="text-danger">
+                          <div class="error" *ngIf="startDate.errors.required">
+                            Start Date is required.
+                          </div>
+                        </div>
+                        <!-- /.input group -->
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label>End Date:</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+                          <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker formControlName="end_date"
+                            placeholder="YYYY-MM-DD" [bsConfig]="{
+                              dateInputFormat: 'YYYY-MM-DD',
+                              containerClass: 'theme-blue'
+                            }" />
+                        </div>
+                        <!-- /.input group -->
+                      </div>
+
+                      <div class="col-md-4 form-group">
+                        <label>Deadline (Hours) :</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-clock-o"></i>
+                          </div>
+                          <input type="number" class="form-control" name="deadline" formControlName="deadline"
+                            placeholder="Deadline" />
+                        </div>
+                        <!-- <div *ngIf="deadline.invalid && (deadline.dirty || isSubmitted)" class="text-danger">
+                            <div class="error" *ngIf="deadline.errors.required">
+                              Deadline is required.
+                            </div>
+                          </div> -->
+                      </div>
+
+                      <!-- /.form group -->
+                    </div>
+                    <div class="row text-center">
+                      <div class="col-md-12">
+                        <button type="button" *ngIf="buttonStatus" (click)="addProject()"
+                          class="btn btn-sm btn-success">
+                          <i class="fa fa-save"></i> &nbsp; Save
+                        </button>
+                        &nbsp;
+                        <button type="button" *ngIf="!buttonStatus" (click)="updateProject()"
+                          class="btn btn-sm btn-success">
+                          <i class="fa fa-pencil"></i> &nbsp; Update
+                        </button>
+                        &nbsp;
+                        <button type="button" class="btn btn-sm btn-danger" (click)="backToList()">
+                          <i class="fa fa-window-close-o"></i> Close
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <!-- /.box-body -->
+              </div>
+
+              <!-- /.box -->
+            </div>
+          </div>
+        </div>
+
+        <!-- <div *ngIf="projectreportflag" class="table-responsive">
+          
+         
+           <app-projects-summaryreport></app-projects-summaryreport> 
+
+        </div> -->
+
+        <!-- <div *ngIf="projectViewStatus1" class="table-responsive">
+          
+         
+          <app-current-month-project></app-current-month-project> 
+
+       </div> -->
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+
+<app-admin-projects *ngIf="clearfilterflag"></app-admin-projects>
+<!-- /.content-wrapper -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Delete Confirmation Message</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">Are you sure Do you really want to delete!</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="cancel()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-danger" (click)="deleteProject()">
+      Delete
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #template1>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Status Confirmation Message</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="selectedProjects">
+    Are you sure you really want to
+    {{ this.selectedProjects.status == 1 ? "Inactivate" : "Activate" }}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="close()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-danger" (click)="confirm()">
+      Confirm
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #template2>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Change Project Type Confirmation</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefBillableStatus.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="selectedProjects">
+    Are you sure you really want to
+    {{ this.selectedProjects.billable_flag == 1 ? "NON-BILLABLE" : "BILLABLE" }}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="closeBillableStatus()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-danger" (click)="confirmBillableStatus()">
+      Confirm
+    </button>
+  </div>
+</ng-template>
+
+<!-- <table id="daily_status">
+  <tr>
+    <th>user_id</th>
+    
+    <th>project_id</th>
+    <th>date</th>
+    <th>hours</th>
+    <th>last24hours</th>
+
+  </tr>
+
+  </tr>  -->
+<!-- </table> --> -->

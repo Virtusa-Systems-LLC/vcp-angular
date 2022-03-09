@@ -1,0 +1,205 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <!-- <section class="content-header">
+    <h1>
+
+      <small></small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">
+        Users
+      </li>
+    </ol>
+  </section> -->
+
+  <!-- Main content -->
+  <section class="content">
+    <app-alert></app-alert>
+    <div class="panel panel-warning">
+      <div class="panel-body">
+
+
+
+
+         
+
+
+       
+
+        <div class="table-responsive">
+          <h3 class="box-title">Time entry details of current month&nbsp; &nbsp; &nbsp; &nbsp;
+            <a href="javascript:void(0)" colspan="7" class="s-icon-btn s-export-to-excel-15px"
+              title='Download excel report' (click)="exportdelaytable2()">
+              <i class="fa fa-download"></i>
+            </a>
+          </h3>
+          <br>
+          
+          <div class="table-container">
+            <table class="table  table-bordered" id="userdetailscurrent">
+              <thead>
+                <tr>
+                  <th (click)="sorting('user_id')">Employee ID<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('first_name')">Employee Name<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('hours_current_month')">Total hours<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('delay_current_month')">Total Delays<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('last_time_entry_date_current_month')">Last Time Entry Date<i
+                      class="fa fa-sort"></i></th>
+                  <th> Current employee</th>
+                  <th> Daily Time entry Required</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of  filteredCurrentUserlist | orderBy : key: reverse ;let i = index">
+                  <td>{{user.user_id}}</td>
+                  <td>{{user.first_name | capitalize}}</td>
+                  <td>{{user.hours_current_month ? user.hours_current_month : ' - '}}</td>
+                  <td>{{user.delay_current_month ? user.delay_current_month : ' - '}}</td>
+                  <td>{{user.last_time_entry_date_current_month ? user.last_time_entry_date_current_month : ' - '}}</td>
+                  <td>{{user.status === 1 ? 'Yes' : 'No'}}</td>
+                  <td>{{user.Daily_Time_entry_required === 1 ? 'Yes' : 'No' | capitalize}}</td>
+
+                </tr>
+                <!-- <tr *ngIf="!(projectsList?.length>0)">
+                <td class="text-center" colspan="7"> No Users Found</td>
+              </tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div *ngIf="!usersListStatus && !userViewStatus  && !userReportflag && !userReportflag1">
+          <div class="row">
+            <div class="col-md-12">
+
+              <div class="box box-danger">
+                <div class="box-header">
+                  <h3 class="box-title">Details</h3>
+                </div>
+                <div class="box-body">
+                  <form method="post" [formGroup]="userForm" novalidate autocomplete="off">
+                    <div class="row">
+                      <!-- Date mm/dd/yyyy -->
+                      <div class="col-md-4 form-group">
+                        <label>Name :</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                          </div>
+                          <input type="text" class="form-control" formControlName="first_name" name="first_name"
+                            placeholder="Name">
+                        </div>
+                        <!-- /.input group -->
+                        <div *ngIf="firstName.invalid && (firstName.dirty || isSubmitted)" class="text-danger">
+                          <div class="error" *ngIf="firstName.errors.required">
+                            Firstname is required.
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.form group -->
+
+                      <!-- phone mask -->
+                      <div class="col-md-4 form-group">
+                        <label>Email :</label>
+
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                          </div>
+                          <input type="text" placeholder="Email" formControlName="email" name="email"
+                            class="form-control">
+                        </div>
+                        <!-- /.input group -->
+                        <div *ngIf="email.invalid && (email.dirty || isSubmitted)" class="error">
+                          <div *ngIf="email.errors.required">Email is required.</div>
+                          <div *ngIf="email.errors.pattern && !email.errors.required">Invalid email(from pattern).</div>
+                        </div>
+                      </div>
+                      <!-- /.form group -->
+
+                      <!-- phone mask -->
+                      <div class="col-md-4 form-group">
+                        <label>Role :</label>
+                        <select class="form-control" formControlName="role" name="role">
+                          <option value=""> -- Select Role Type -- </option>
+                          <ng-container *ngFor="let role of  rolesList;let i = index">
+                            <option *ngIf="role.status==1" [value]="role.role_id">
+                              <span>{{role.role_name}}</span>
+                            </option>
+                          </ng-container>
+                        </select>
+                        <div *ngIf="role.invalid && (role.dirty || isSubmitted)" class="text-danger">
+                          <div class="error" *ngIf="role.errors.required">
+                            Role is required.
+                          </div>
+                        </div>
+                        <!-- /.input group -->
+                      </div>
+                      <!-- /.form group -->
+                    </div>
+                    <div class="row">
+                      <!-- IP mask -->
+                      <div class="col-md-4 form-group">
+                        <label>Start Date:</label>
+                        <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker formControlName="start_date"
+                          placeholder="YYYY-MM-DD"
+                          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-blue' }">
+                        <!-- /.input group -->
+                        <div *ngIf="startDate.invalid && (startDate.dirty || isSubmitted)" class="text-danger">
+                          <div class="error" *ngIf="startDate.errors.required">
+                            Start Date is required.
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.form group -->
+
+                      <!-- IP mask -->
+                      <div class="col-md-4 form-group">
+                        <label>End Date:</label>
+                        <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker formControlName="end_date"
+                          placeholder="YYYY-MM-DD"
+                          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-blue' }">
+                        <!-- /.input group -->
+                      </div>
+
+                    </div>
+                    <!-- /.form group -->
+                    <div class="clearfix"></div>
+                   
+                  </form>
+                </div>
+                <!-- /.box-body -->
+              </div>
+
+              <!-- /.box -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- /.content -->
+</div>
+
+<!-- <script>
+  window.onscroll = function () { myFunction() };
+
+  var header = document.getElementById("myHeader");
+  var sticky = header.offsetTop;
+
+  function myFunction() {
+    if (window.pageYOffset > sticky) {
+      header.classList.add("sticky");
+    } else {
+      header.classList.remove("sticky");
+    }
+  }
+</script> -->
+

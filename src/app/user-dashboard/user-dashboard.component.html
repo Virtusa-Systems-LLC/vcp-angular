@@ -1,0 +1,163 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <!-- <section class="content-header">
+    <h1>
+      Dashboard
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">Dashboard</li>
+    </ol>
+  </section> -->
+
+  <!-- Main content -->
+  <section class="content">
+    <!-- Small boxes (Stat box) -->
+
+    <div class="row pb--4">
+      <div class="col-12 col-sm-2 col-half-offset ">
+          <div class="card q0card">
+              <div class="card-block" >
+                <h4 class="text-muted">Time entry delay in current month</h4>
+              </div>
+              <div class="card-footer bg-c-blue2">
+                  <div class="row align-items-center">
+                      <div class="col-12">
+                        <p *ngIf="currentInfo">
+                          <i class="fa fa-calendar"></i> {{currentInfo.delay_days_current_month}} days
+                        </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-12 col-sm-2 col-half-offset ">
+          <div class="card q2card">
+            <div class="card-block" >
+              <h4 class="text-muted ">Time entry delay in previous month</h4>
+            </div>
+              <div class="card-footer bg-c-yellow">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                      <p *ngIf="previousInfo">
+                        <i class="fa fa-calendar"></i> {{previousInfo.delay_days_last_month}} days
+                      </p>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-12 col-sm-2 col-half-offset ">
+          <div class="card q3card">
+            <div class="card-block" >
+              <h4 class="text-muted ">Hours worked current month</h4>
+            </div>
+              <div class="card-footer bg-c-bluee">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                      <p *ngIf="currentInfo">
+                        <i class="fa fa-clock-o"></i> {{currentInfo.hours_current_month}} hours
+                      </p>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-12 col-sm-2 col-half-offset ">
+          <div class="card q4card">
+            <div class="card-block" >
+              <h4 class="text-muted ">Hours worked previous month</h4>
+            </div>
+              <div class="card-footer bg-c-blue">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                      <p *ngIf="previousInfo">
+                        <i class="fa fa-clock-o"></i> {{previousInfo.hours_last_month}} hours
+                      </p>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-12 col-sm-2 col-half-offset ">
+        <div class="card q1card">
+          <div class="card-block" >
+            <h4 class="text-muted ">Last time entry date</h4>
+          </div>
+            <div class="card-footer bg-c-green">
+              <div class="row align-items-center">
+                  <div class="col-12">
+                    <p *ngIf="currentInfo">
+                      {{currentInfo.last_time_entry_date_current_month}}
+                    </p>
+                  </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- /.row -->
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        {{title | capitalize}}
+      </div>
+      <div class="row chart-slct-drpdwn">
+        <div class="col-md-12">
+          <div class="col-md-3">
+            <select class="form-control" [(ngModel)]="barChartType" 
+                    (change)="chartTypeChange($event)">
+              <option [value]="'bar'">Bar</option>
+              <option [value]="'line'">Line</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <!-- <dp-month-calendar [(ngModel)]="selectedDate" (onSelect)="selectedMonth($event)" theme="dp-material"></dp-month-calendar> -->
+            <input *ngIf="monthPickerStatus" name="selectedDate" class="form-control" [(ngModel)]="selectedDate"
+              [theme]="'dp-material'" [mode]="'month'" (onChange)="selectedMonth($event)" [dpDayPicker]="config" />
+
+            <select *ngIf="!monthPickerStatus" class="form-control" [(ngModel)]="selectedDate"
+              (change)="selectedYear($event)">
+              <option *ngFor="let j of Arr(num).fill(1);let i = index" value="{{2015 + i}}">{{2015 + i}}</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <select class="form-control" [(ngModel)]="project" (change)="changeProject($event)">
+              <!-- <ng-container *ngIf="projectsList"> -->
+              <!-- <option [value]="'all'">All Projects</option> -->
+              <option *ngFor="let project of projectsList; let i=index" [value]="project.project_id">
+                <span>{{project.project_name}}</span>
+              </option>
+              <!-- </ng-container> -->
+            </select>
+          </div>
+          <div class="col-md-3">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div style="display: block">
+            <!-- <canvas height="100" baseChart *ngIf="barChartData && barChartLabels" [datasets]="barChartData" [labels]="barChartLabels"
+            [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"></canvas> -->
+            <!-- <canvas height="100" id="reportChart"></canvas> -->
+            <!-- <canvas baseChart [datasets]="datasets_lines" [labels]="labels_line" [colors]="chartColors" [options]="options" [chartType]="lineChartType">
+            </canvas> -->
+          </div>
+          <div style="display: block" *ngIf="barChartData.length>0 && barChartLabels.length>0  ">
+            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
+              [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType" width="400"
+              height="100"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

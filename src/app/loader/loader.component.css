@@ -1,0 +1,10 @@
+.hidden {
+  visibility: hidden;
+}
+.loader-overlay {
+  position: fixed;
+  width: 100%;
+  z-index: 500000;
+  top: 0;
+  background: none !important;
+}

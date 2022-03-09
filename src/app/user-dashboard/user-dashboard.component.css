@@ -1,0 +1,194 @@
+.h4,
+h4 {
+  font-size: 24px;
+}
+p {
+  font-size: 40px;
+}
+.col-lg-3 {
+  width: 20%;
+}
+.small-box-current {
+  background-color: #ff8c66;
+  padding: 10px;
+}
+.small-box-previous {
+  background-color: #88bdbc;
+  padding: 10px;
+}
+.small-box-date {
+  background-color: #d4702d;
+  padding: 10px;
+}
+.pb--4 {
+  padding-bottom: 22px;
+}
+@media screen and (min-width: 720px) {
+  .col-half-offset {
+    width: 20%;
+    padding: 5px 10px;
+  }
+}
+@media screen and (max-width: 720px) {
+  .col-half-offset {
+    padding-top: 30px;
+  }
+}
+
+/* style for cards */
+.q0card {
+  border-radius: 10px;
+  background: linear-gradient(145deg, #c1e8ff, #ffffff);
+  box-shadow: -4px -4px 5px #bebebe, -20px -20px 60px #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.q0card:hover{
+  transform: translate(0%, -2%);
+}
+.q1card {
+  border-radius: 10px;
+  background: linear-gradient(145deg, #dffff4, #ffffff);
+  box-shadow: -4px -4px 5px #bebebe, -20px -20px 60px #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.q1card:hover{
+  transform: translate(0%, -2%);
+}
+.q2card {
+  border-radius: 10px;
+  background: linear-gradient(145deg, #ffe4d9, #ffffff);
+  box-shadow: -4px -4px 5px #bebebe, -20px -20px 60px #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.q2card:hover{
+  transform: translate(0%, -2%);
+}
+.q3card {
+  border-radius: 10px;
+  background: linear-gradient(145deg, #cbefff, #ffffff);
+  box-shadow: -4px -4px 5px #bebebe, -20px -20px 60px #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.q3card:hover{
+  transform: translate(0%, -2%);
+}
+.q4card {
+  border-radius: 10px;
+  background: linear-gradient(145deg, #c7feff, #ffffff);
+  box-shadow: -4px -4px 5px #bebebe, -20px -20px 60px #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.q4card:hover{
+  transform: translate(0%, -2%);
+}
+
+::ng-deep .bg-c-bluee {
+  background: linear-gradient(to right, #0fa0e0, #6fc8ef);
+}
+::ng-deep .text-c-bluee {
+  color: #0fa0e0;
+}
+
+.bg-c-blue2 {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#003c5f),
+    to(#006eae)
+  );
+  background: linear-gradient(to right, #003c5f, #006eae);
+}
+.bg-c-blue {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#01a9ac),
+    to(#01dbdf)
+  );
+  background: linear-gradient(to right, #01a9ac, #01dbdf);
+}
+.bg-c-yellow {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#fe9365),
+    to(#feb798)
+  );
+  background: linear-gradient(to right, #fe9365, #feb798);
+}
+.bg-c-green {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#0ac282),
+    to(#0df3a3)
+  );
+  background: linear-gradient(to right, #0ac282, #0df3a3);
+}
+.bg-c-blue {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#01a9ac),
+    to(#01dbdf)
+  );
+  background: linear-gradient(to right, #01a9ac, #01dbdf);
+}
+.card .card-footer {
+  background-color: #fff;
+  border-top: none;
+}
+.text-muted {
+  color: #474747;
+  padding: 10px;
+  font-weight: 600;
+  min-height: 72px;
+  max-height: 160px;
+  vertical-align: middle;
+  display: inline-flex;
+}
+
+.card-footer p {
+  font-size: 30px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  margin: 0px;
+  padding: 10px;
+  font-family: "Nunito", sans-serif;
+}
+
+.panel-warning {
+  border-color: #faebcc;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #f4feff, #ffffff);
+  box-shadow: -4px -4px 30px #d2d2d2, -10px -10px 10px #ffffff;
+}
+.panel-warning > .panel-heading {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+  background-color: #222d32;
+  border-color: #222d32;
+}
+
+.chart-slct-drpdwn select, .chart-slct-drpdwn input {
+  box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #fff;
+  -webkit-box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #fff;
+  border: 0;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}

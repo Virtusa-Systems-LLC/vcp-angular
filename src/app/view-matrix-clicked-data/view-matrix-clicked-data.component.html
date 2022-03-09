@@ -1,0 +1,124 @@
+<!-- Total work done on a project -->
+<div class="table-container" *ngIf="totalworkdoneonaproject">
+  <div class="row title-row">
+    <div class="col-md-6">
+      <p><span>ProjectName: </span>{{ fetchedData.data[0].project_name }}</p>
+    </div>
+    <div class="col-md-6">
+      <p><span>Month: </span>{{ displaymonth }}</p>
+    </div>
+  </div>
+  <div class="sticky-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th (click)="sorting('date')" class="date-col">
+            Date <i class="fa fa-sort"></i>
+          </th>
+          <th (click)="sorting('hours')" class="hours-col">
+            Hours <i class="fa fa-sort"></i>
+          </th>
+          <th (click)="sorting('first_name')" class="emp-name-col">
+            Employee <i class="fa fa-sort"></i>
+          </th>
+          <th (click)="sorting('work_done')">
+            Work Done <i class="fa fa-sort"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of fetchedData.data | orderBy: key:reverse; let i = index">
+          <td style="font-weight: normal">{{ project.date }}</td>
+          <td style="font-weight: normal">{{ project.hours }}</td>
+          <td style="font-weight: normal">{{ project.first_name }}</td>
+          <td style="font-weight: normal">{{ project.work_done }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Total work done on a project -->
+
+<!-- Employee work done on specific project -->
+<div *ngIf="employeeworkdoneonspecificproject">
+  <div class="row title-row">
+    <div class="col-md-4">
+      <p><span>ProjectName: </span>{{ fetchedData.data[0].project_name }}</p>
+    </div>
+    <div class="col-md-4">
+      <p><span>Month: </span>{{ displaymonth }}</p>
+    </div>
+    <div class="col-md-4">
+      <p><span>EmployeeName: </span>{{ fetchedData.data[0].first_name }}</p>
+    </div>
+  </div>
+  <div class="sticky-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th (click)="sorting('date')" class="date-col">
+            Date <i class="fa fa-sort"></i>
+          </th>
+          <th (click)="sorting('hours')" class="hours-col">
+            Hours <i class="fa fa-sort"></i>
+          </th>
+          <th (click)="sorting('work_done')">
+            Work Done <i class="fa fa-sort"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of fetchedData.data | orderBy: key:reverse; let i = index">
+          <td style="font-weight: normal">{{ project.date }}</td>
+          <td style="font-weight: normal">{{ project.hours }}</td>
+          <td style="font-weight: normal">{{ project.work_done }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Employee work done on specific project -->
+
+<!-- Employee total work done -->
+<div *ngIf="employeetotalworkdone">
+  <div class="row title-row">
+    <div class="col-md-6">
+      <p><span>Month: </span>{{ displaymonth }}</p>
+    </div>
+    <div class="col-md-6">
+      <p><span>EmployeeName: </span>{{ fetchedData.data[0].first_name }}</p>
+    </div>
+  </div>
+  <div class="sticky-table">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th (click)="sorting('date')" class="date-col">
+            Date <i class="fa fa-sort"></i>
+          </th>
+          <th (click)="sorting('hours')" class="hours-col">
+            Hours <i class="fa fa-sort"></i>
+          </th>
+          <th (click)="sorting('project_name')" class="project-col">
+            Project <i class="fa fa-sort"></i>
+          </th>
+          <th (click)="sorting('work_done')">
+            Work Done <i class="fa fa-sort"></i>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let project of fetchedData.data | orderBy: key:reverse; let i = index">
+          <td style="font-weight: normal">{{ project.date }}</td>
+          <td style="font-weight: normal">{{ project.hours }}</td>
+          <td style="font-weight: normal">{{ project.project_name }}</td>
+          <td style="font-weight: normal">{{ project.work_done }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<!-- Employee total work done -->

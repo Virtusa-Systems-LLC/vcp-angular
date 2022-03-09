@@ -1,0 +1,283 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <!-- <section class="content-header">
+    <h1>
+
+      <small></small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a [routerLink]="['/dashboard']">
+          <i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">
+        Users
+      </li>
+    </ol>
+  </section> -->
+
+  <!-- Main content -->
+  <section class="content">
+    <app-alert></app-alert>
+    <div class="panel panel-warning">
+      <div class="panel-body">
+
+
+
+          <h3>Employees not entered time in the last 2 days</h3>
+          <div class="table-container">
+            <table class="table  table-bordered" id="adminDashboardDelaylist">
+              <thead>
+                <tr>
+    
+                  <th (click)="sorting('user_id')">Employee Name<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('max_date')">Last Time entry Date<i class="fa fa-sort"></i></th>
+    
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of  adminDashboardDelaylist">
+                  <td>{{user.first_name | capitalize}}</td>
+                  <td>{{user.max_date ? user.max_date : ' - '}}</td>
+    
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        <h3>Details of Daily Time Entry Not Required Employees in the last
+          <select (change)="changeNumberOfDays($event)">
+            <option value="4" selected>4</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <!-- <option value=any>Both</option> -->
+          </select> days
+        </h3>
+        <div class="table-container">
+          <table class="table  table-bordered" id="adminDashboardlist">
+            <thead>
+              <tr>
+    
+                <th (click)="sorting('first_name')">Employee Name<i class="fa fa-sort"></i></th>
+                <th (click)="sorting('date')">Date<i class="fa fa-sort"></i></th>
+                <th (click)="sorting('created_date')">Created Date<i class="fa fa-sort"></i></th>
+                <th (click)="sorting('project_name')">Project Name<i class="fa fa-sort"></i></th>
+                <th (click)="sorting('hours')">Hours Spent<i class="fa fa-sort"></i></th>
+                <th>Work Done<i class="fa fa-sort"></i></th>
+    
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of  adminDashboardlist | orderBy : key: reverse ;let i = index">
+                <td>{{user.first_name | capitalize}}</td>
+                <td>{{user.date ? user.date : ' - '}}</td>
+                <td>{{user.created_date | date : 'shortDate'}}</td>
+                <td>{{user.project_name ? user.project_name : ' - '}}</td>
+                <td>{{user.hours ? user.hours : ' - '}}</td>
+                <td>{{user.last24hours ? user.last24hours : ' - '}}</td>
+    
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        <!-- <div class="table-responsive">
+          <h3 class="box-title">Time entry details of previous month&nbsp; &nbsp; &nbsp; &nbsp;
+
+            <a href="javascript:void(0)" colspan="7" class="s-icon-btn s-export-to-excel-15px"
+              title='Download excel report' (click)="exportdelaytable()">
+              <i class="fa fa-download"></i>
+            </a>
+          </h3>
+          <br>
+          <div class="table-container">
+            <table class="table  table-bordered" id="userdetails">
+              <thead>
+                <tr>
+
+                  <th (click)="sorting('first_name')">First Name<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('last_name')">Last Name<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('hours_last_month')">Total hours<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('delay_days_last_month')">Total Delays<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('last_time_entry_date_last_month')">Last Time Entry Date<i
+                      class="fa fa-sort"></i></th>
+                  <th>Current Employee</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of filteredPreviousUserlist | orderBy : key: reverse ;let i = index">
+                  <td>{{user.first_name | capitalize}}</td>
+                  <td>{{user.last_name | capitalize}}</td>
+                  <td>{{user.hours_last_month ? user.hours_last_month : ' - '}}</td>
+                  <td>{{user.delay_days_last_month ? user.delay_days_last_month : ' - '}}</td>
+                  <td>{{user.last_time_entry_date_last_month ? user.last_time_entry_date_last_month : ' - '}}</td>
+                  <td>{{user.status === 1 ? 'Yes' : 'No'}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div> -->
+
+        <!-- <div class="table-responsive">
+          <h3 class="box-title">Time entry details of current month&nbsp; &nbsp; &nbsp; &nbsp;
+            <a href="javascript:void(0)" colspan="7" class="s-icon-btn s-export-to-excel-15px"
+              title='Download excel report' (click)="exportdelaytable2()">
+              <i class="fa fa-download"></i>
+            </a>
+          </h3>
+          <br>
+          <div class="table-container">
+            <table class="table  table-bordered" id="userdetailscurrent">
+              <thead>
+                <tr>
+
+                  <th (click)="sorting('first_name')">Employee Name<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('hours_current_month')">Total hours<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('delay_current_month')">Total Delays<i class="fa fa-sort"></i></th>
+                  <th (click)="sorting('last_time_entry_date_current_month')">Last Time Entry Date<i
+                      class="fa fa-sort"></i></th>
+                  <th> Current employee</th>
+                  <th> Daily Time entry Required</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of  filteredCurrentUserlist | orderBy : key: reverse ;let i = index">
+                  <td>{{user.first_name | capitalize}}</td>
+                  <td>{{user.hours_current_month ? user.hours_current_month : ' - '}}</td>
+                  <td>{{user.delay_current_month ? user.delay_current_month : ' - '}}</td>
+                  <td>{{user.last_time_entry_date_current_month ? user.last_time_entry_date_current_month : ' - '}}</td>
+                  <td>{{user.status === 1 ? 'Yes' : 'No'}}</td>
+                  <td>{{user.Daily_Time_entry_required === 1 ? 'Yes' : 'No' | capitalize}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div> -->
+
+        <!-- <div *ngIf="!usersListStatus && !userViewStatus  && !userReportflag && !userReportflag1">
+          <div class="row">
+            <div class="col-md-12">
+
+              <div class="box box-danger">
+                <div class="box-header">
+                  <h3 class="box-title">Details</h3>
+                </div>
+                <div class="box-body">
+                  <form method="post" [formGroup]="userForm" novalidate autocomplete="off">
+                    <div class="row">
+                      <div class="col-md-4 form-group">
+                        <label>Name :</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                          </div>
+                          <input type="text" class="form-control" formControlName="first_name" name="first_name"
+                            placeholder="Name">
+                        </div>
+                        <div *ngIf="firstName.invalid && (firstName.dirty || isSubmitted)" class="text-danger">
+                          <div class="error" *ngIf="firstName.errors.required">
+                            Firstname is required.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label>Email :</label>
+
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-envelope"></i>
+                          </div>
+                          <input type="text" placeholder="Email" formControlName="email" name="email"
+                            class="form-control">
+                        </div>
+                        <div *ngIf="email.invalid && (email.dirty || isSubmitted)" class="error">
+                          <div *ngIf="email.errors.required">Email is required.</div>
+                          <div *ngIf="email.errors.pattern && !email.errors.required">Invalid email(from pattern).</div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4 form-group">
+                        <label>Role :</label>
+                        <select class="form-control" formControlName="role" name="role">
+                          <option value=""> -- Select Role Type -- </option>
+                          <ng-container *ngFor="let role of  rolesList;let i = index">
+                            <option *ngIf="role.status==1" [value]="role.role_id">
+                              <span>{{role.role_name}}</span>
+                            </option>
+                          </ng-container>
+                        </select>
+                        <div *ngIf="role.invalid && (role.dirty || isSubmitted)" class="text-danger">
+                          <div class="error" *ngIf="role.errors.required">
+                            Role is required.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 form-group">
+                        <label>Start Date:</label>
+                        <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker formControlName="start_date"
+                          placeholder="YYYY-MM-DD"
+                          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-blue' }">
+                        <div *ngIf="startDate.invalid && (startDate.dirty || isSubmitted)" class="text-danger">
+                          <div class="error" *ngIf="startDate.errors.required">
+                            Start Date is required.
+                          </div>
+                        </div>
+                      </div>
+                    
+                      <div class="col-md-4 form-group">
+                        <label>End Date:</label>
+                        <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker formControlName="end_date"
+                          placeholder="YYYY-MM-DD"
+                          [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-blue' }">
+                      </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="row text-center">
+                      <div class="col-md-12">
+                        <button type="button" *ngIf="buttonStatus" (click)="addUser()" class="btn btn-sm btn-success">
+                          <i class="fa fa-save"></i> &nbsp; Save </button>&nbsp;
+                        <button type="button" *ngIf="!buttonStatus" (click)="updateUser()"
+                          class="btn btn-sm btn-success">
+                          <i class="fa fa-pencil"></i> &nbsp; Update </button>&nbsp;
+                        <button type="button" class="btn btn-sm btn-danger" (click)="backToList()">
+                          <i class="fa fa-window-close-o"></i> Close</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <!-- /.content -->
+</div>
+
+<!-- <script>
+  window.onscroll = function () { myFunction() };
+
+  var header = document.getElementById("myHeader");
+  var sticky = header.offsetTop;
+
+  function myFunction() {
+    if (window.pageYOffset > sticky) {
+      header.classList.add("sticky");
+    } else {
+      header.classList.remove("sticky");
+    }
+  }
+</script> -->
+

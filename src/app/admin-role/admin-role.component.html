@@ -1,0 +1,126 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/dashboard']">
+                    <i class="fa fa-dashboard"></i> Home</a>
+            </li>
+            <li class="active">
+                Role
+            </li>
+        </ol>
+    </section>
+    <section class="content">
+        <app-alert></app-alert>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <b>{{title | capitalize}}</b>
+                <button *ngIf="roleListStatus && !roleViewStatus"
+                    class="btn btn-warning btn-sm pull-right custom_btn_size" (click)="showAddForm()">
+                    <i class="fa fa-plus"></i> Add</button>
+                <button *ngIf="!roleListStatus || roleViewStatus"
+                    class="btn btn-danger btn-sm pull-right custom_btn_size" (click)="backToList()">
+                    <i class="fa fa-arrow-left"></i> Back</button>
+            </div>
+            <div class="panel-body">
+                <div *ngIf="roleListStatus && !roleViewStatus" class="table-responsive">
+                    <div class="table-container">
+                    <table class="table  table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Role Type</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let role of  rolesList;let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{role.role_name | capitalize}}</td>
+                                <td> <ui-switch checkedLabel="ACTIVE" size="small" (valueChange)=" openModal(template, role); onChange($event)"  [checked]="role.status == 1 ? true : false" uncheckedLabel="IN ACTIVE"></ui-switch></td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn btn-xs btn-primary"
+                                        (click)="showEditForm(role)">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!(rolesList?.length>0)">
+                                <td class="text-center" colspan="7"> No Roles Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                <div *ngIf="!roleListStatus && !roleViewStatus">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="box box-danger">
+                                <div class="box-header">
+                                    <h3 class="box-title">Details</h3>
+                                </div>
+                                <div class="box-body">
+                                    <form method="post" [formGroup]="roleForm" novalidate autocomplete="off">
+                                        <div class="row">
+                                            <!-- Date mm/dd/yyyy -->
+                                            <div class="col-md-6 form-group">
+                                                <label>Role Name :</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-globe"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control" formControlName="role_name"
+                                                        name="role_name" placeholder="Role Name">
+                                                </div>
+                                                <div *ngIf="roleName.invalid && (roleName.dirty || isSubmitted)"
+                                                    class="text-danger">
+                                                    <div class="error" *ngIf="roleName.errors.required">
+                                                        Role Name is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="row text-center">
+                                            <div class="col-md-12">
+                                                <button type="button" *ngIf="buttonStatus" (click)="addRole()"
+                                                    class="btn btn-sm btn-success">
+                                                    <i class="fa fa-save"></i> &nbsp; Save </button>&nbsp;
+                                                <button type="button" *ngIf="!buttonStatus" (click)="updateRole()"
+                                                    class="btn btn-sm btn-success">
+                                                    <i class="fa fa-pencil"></i> &nbsp; Update </button>&nbsp;
+                                                <button type="button" class="btn btn-sm btn-danger" (click)="backToList()">
+                                                    <i class="fa fa-window-close-o"></i> Close</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<ng-template #template>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Status Confirmation Message</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="selectedRole">
+            Are you sure Do you really want to {{this.selectedRole.status == 1 ? 'Inactivate':'Activate'}}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="close()" >Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="confirm()" >Confirm</button>
+        </div>
+</ng-template>

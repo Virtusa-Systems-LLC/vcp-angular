@@ -1,0 +1,135 @@
+<div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+  
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li>
+          <a [routerLink]="['/dashboard']">
+            <i class="fa fa-dashboard"></i> Home</a>
+        </li>
+        <li class="active">
+          Hourly Status
+        </li>
+      </ol>
+    </section>
+    <section class="content">
+      <app-alert></app-alert>
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <b>{{title | capitalize}}</b>
+        </div>
+        <div class="panel-body">
+          <form method="post" [formGroup]="hourlyStatusForm" novalidate autocomplete="off">
+            <div class="row">
+              <div class="col-md-12">
+  
+                <div class="box-body">
+                  <div class="col-md-4 form-group">
+  
+                    <label>Employees:</label>
+  
+                    <ng-select *ngIf="usersList" [multiple]="true" [items]="usersList" bindLabel="first_name"
+                      bindValue="user_id" placeholder="Select Employee" formControlName="users">
+                    </ng-select>
+                    <div *ngIf="getUsers.invalid && (getUsers.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="getUsers.errors.required">
+                        Employees are required.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Projects:</label>
+  
+                    <ng-select *ngIf="projectsList" [multiple]="true" [items]="projectsList" bindLabel="project_name"
+                      bindValue="project_id" placeholder="Select Project" formControlName="projects">
+                    </ng-select>
+                    <div *ngIf="getProjects.invalid && (getProjects.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="getProjects.errors.required">
+                        Projects are required.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <label>Date:</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+  
+                      <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker formControlName="date"
+                        placeholder="YYYY-MM-DD"
+                        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-blue'  }">
+                    </div>
+                    <div *ngIf="Date.invalid && (Date.dirty || isSubmitted)" class="text-danger">
+                      <div class="error" *ngIf="Date.errors.required">
+                        Date is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="clearfix"></div>
+                      <div class="row text-center">
+                        <div class="col-md-12">
+                          <button type="button" (click)="getAdminHourlyStatus()" class="btn btn-sm btn-primary">
+                            <i class="fa fa-search"></i> &nbsp; Search </button>
+                        </div>
+                      </div>
+                <!-- /.box -->
+              </div>
+            </div>
+  
+          </form>
+        </div>
+  
+        <div class="container-fluid" *ngIf="viewStatus">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box box-solid">
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <ul class="timeline timeline-inverse">
+                    <!-- timeline time label -->
+                    <li class="time-label">
+                      <span>Timeline</span>
+                    </li>
+                    <!-- /.timeline-label -->
+                    <!-- timeline item -->
+                    <li *ngFor="let data of hourlyStatusData; let i = index">
+                      <i class="fa fa-envelope bg-blue"></i>
+  
+                      <div class="timeline-item">
+  
+                        <h3 class="timeline-header"><b>{{data.first_name}}</b> Hourly Status at <span>{{data.created_date | date: 'MMM d y, HH:mm'}}</span>
+                          <!-- <span>{{dailyStatusInfo[0].date | date: 'MMM d, y'}}</span> -->
+                        </h3>
+                        <div class="timeline-body">
+                          <dt>Project Name </dt>
+                          <dd style="white-space: pre-line;">{{data.project_name}}
+                          </dd>
+                          <br />
+                          <dt>Checkin Time </dt>
+                          <dd style="white-space: pre-line;">{{data.checkin_time}}</dd>
+                          <br />
+                          <dt>Checkout Time </dt>
+                          <dd style="white-space: pre-line;">{{data.checkout_time}}</dd>
+                          <br />
+                          <dt>Total Hours</dt>
+                          <dd>{{data.hours}}</dd>
+                        </div>
+                      </div>
+                    </li>
+                    <!-- END timeline item -->
+                  </ul>
+                </div>
+                <!-- /.box-body -->
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>

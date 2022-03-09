@@ -1,0 +1,62 @@
+th {
+  background: white;
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+  border: 1px solid black;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+  background-color: #222d32;
+  border-top: 0;
+  width: 10px;
+  color: white;
+  font: message-box;
+}
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #f4f4f4;
+  border-block-color: initial;
+  background-color: white;
+  border: 1px solid #090a0a94;
+  width: 10px;
+}
+.table-bordered > thead > tr > th .fa {
+  padding-left: 10px;
+}
+.table-bordered > thead > tr > th {
+  position: sticky !important;
+  top: -1px;
+  z-index: 100;
+  vertical-align: middle;
+}
+.sticky-table {
+  display: inline-block;
+  width: 100%;
+  height: calc(100vh - 58px);
+  overflow-y: auto;
+}
+.title-row {
+  padding: 15px 15px 5px;
+  background: #3c8dbc;
+  color: #fff;
+  letter-spacing: 0.6px;
+  font-size: 16px;
+}
+.title-row p span {
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #fdfbc2;
+}
+.date-col,
+.hours-col {
+  width: 8% !important;
+}
+.project-col {
+  width: 15% !important;
+}
+.emp-name-col {
+  width: 20% !important;
+}

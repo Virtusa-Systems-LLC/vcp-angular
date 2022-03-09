@@ -1,0 +1,7 @@
+.table tr td.active {
+    background-color:#1d6791 !important;
+    color: white;
+  }
+  .table tr td { 
+    cursor: pointer;
+  }

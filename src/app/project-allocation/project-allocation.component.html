@@ -1,0 +1,293 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+
+      <small></small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a [routerLink]="['/dashboard']" >
+          <i class="fa fa-dashboard"></i> Home</a>
+      </li>
+      <li class="active">
+        Project Allocation
+      </li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <app-alert></app-alert>
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <b>{{title}}</b>
+        <button *ngIf="projectAllocationListStatus" class="btn btn-warning btn-sm pull-right custom_btn_size" (click)="showAddForm()">
+          <i class="fa fa-plus"></i> Add</button>
+        <button *ngIf="!projectAllocationListStatus" class="btn btn-danger btn-sm pull-right custom_btn_size" (click)="backToList()">
+          <i class="fa fa-arrow-left"></i> Back</button>
+      </div>
+      <div class="panel-body">
+
+        <div *ngIf="projectAllocationListStatus && !pickerStatus" class="table-responsive">
+          <div class="table-container">
+          <table class="table  table-bordered">
+            <thead>
+              <tr>
+                <!-- <th style="width: 5%">#</th> -->
+                <th style="width: 10%">Project ID</th>
+                <th style="width: 15%">Project Name</th>
+                <th style="width: 60%">Employees</th>
+                <th style="width: 10%">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let project of  projectsAllocationList;let i = index">
+                <!-- <td>{{i+1}}</td> -->
+                <td>{{project.project_id}}</td>
+                <td>{{project.project_name | capitalize}}</td>
+                <td>
+                  <span *ngFor="let user of  (project.user_names).split(',')" class="badge badge-success badge_right">{{user | capitalize}}
+                  </span>
+                </td>
+                <td>
+                  <a href="javascript:void(0)" class="btn btn-xs btn-primary" (click)="showEditForm(project)">
+                    <i class="fa fa-pencil"></i>
+                  </a>&nbsp;
+                  <a href="javascript:void(0)" class="btn btn-xs btn-danger" (click)="openModal(template, project)">
+                    <i class="fa fa-trash"></i>
+                  </a>&nbsp;
+                  <a href="javascript:void(0)" class="btn btn-xs btn-warning" (click)="showPickerForm(project)">
+                    <i class="fa fa-calendar"></i>
+                  </a>
+                </td>
+              </tr>
+              <tr *ngIf="!(projectsAllocationList?.length>0)">
+                <td class="text-center" colspan="5"> No Project Allocations Found </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+
+        <div *ngIf="!projectAllocationListStatus && !pickerStatus">
+
+          <form method="post" [formGroup]="projectAllocationForm" novalidate autocomplete="off">
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="box box-danger">
+                  <div class="box-header">
+                    <h3 class="box-title">Details</h3>
+                  </div>
+                  <div class="box-body">
+
+                    <!-- IP mask -->
+                    <div class="col-md-6 form-group">
+                      <label>Project Name:</label>
+                      
+                      <ng-select *ngIf="projectsList"  [items]="projectsList" bindLabel="project_name" bindValue="project_id" placeholder="Select Project"
+                        formControlName="project_id">
+                      </ng-select>
+                    
+                     
+                      <div *ngIf="projectId.invalid && (projectId.dirty || isSubmitted)" class="text-danger">
+                        <div class="error" *ngIf="projectId.errors.required">
+                          Project Name is required.
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.form group -->
+
+                    <!-- IP mask -->
+                    <div class="col-md-6 form-group">
+                      
+                      <label>Employees:</label>
+                  
+                      <!-- <ng-select *ngIf="usersList" [multiple]="true" [items]="usersList" bindLabel="first_name" bindValue="user_id" placeholder="Select Employee"
+                        formControlName="users" (removed)="removed($event)">
+                      </ng-select> -->
+                     
+                      <ng-multiselect-dropdown
+                          placeholder="Select Employee"
+                          [data]="usersList"
+                          bindLabel="first_name"
+                          formControlName="user_id"
+                          [settings]="dropdownSettings"
+                          (onSelect)="onItemSelect($event)"
+                          (onDeSelect)="onDeSelect($event)">
+                        </ng-multiselect-dropdown>
+                      
+                      <!-- <div *ngIf="getUsers.invalid && (getUsers.dirty || isSubmitted)" class="text-danger">
+                        <div class="error" *ngIf="getUsers.errors.required">
+                          Users are required.
+                        </div>
+                      </div> -->
+                    </div>
+                    <!-- /.form group -->
+
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+
+                <!-- /.box -->
+              </div>
+            </div>
+            <div class="row text-center">
+              <div class="col-md-12">
+                <button type="button" *ngIf="buttonStatus" (click)="addProjectAllocation()" class="btn btn-sm btn-success">
+                  <i class="fa fa-save"></i> &nbsp; Save </button>&nbsp;
+                <button type="button" *ngIf="!buttonStatus" (click)="updateProjectAllocation()" class="btn btn-sm btn-success">
+                  <i class="fa fa-pencil"></i> &nbsp; Update </button>&nbsp;
+                <button type="button" class="btn btn-sm btn-danger" (click)="backToList()">
+                  <i class="fa fa-window-close-o"></i> Close</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div *ngIf="pickerStatus">
+
+          <form method="post" [formGroup]="projectAllocationDatesForm" novalidate autocomplete="off">
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="box box-danger">
+                  <div class="box-header">
+                    <h3 class="box-title">Details</h3>
+                  </div>
+                  <div class="box-body" *ngIf="projectsAllocationsList?.length > 0">
+
+                    <table class="table table-bordered">
+                      <thead>
+                      <tr>
+                        <th>
+                          #
+                        </th>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          Start Date
+                        </th>
+                        <th>
+                          End Date
+                        </th>
+                        <th>Time Limit Daily</th>
+                        <th>Time Limit Weekly</th>
+                        <th>Time Limit Monthly</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr formArrayName="items" *ngFor="let item of projectAllocationDatesForm.get('items').controls;let i = index;">
+                        <ng-container [formGroupName]="i">
+                          <td>{{i+1}}</td>
+                          <td>{{ projectAllocationDatesForm.controls.items.controls[i].controls.first_name.value }}</td>
+                          <td>
+                            <div class="input-group">
+
+                              <input class="form-control" #dpYMD1="bsDatepicker" 
+                                [maxDate]="projectAllocationDatesForm.controls.items.controls[i].controls.project_end_date.value"
+                                bsDatepicker formControlName="start_date" placeholder="YYYY-MM-DD" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-blue'  }">
+                                <div class="input-group-addon"  (click)="dpYMD1.toggle()" [attr.aria-expanded]="dpYMD1.isOpen">
+                                  <i class="fa fa-calendar"  value="Toggle"></i>
+                                </div>
+                              </div>
+                            <div *ngIf="projectAllocationDatesForm.controls.items.controls[i].controls.start_date.invalid && (projectAllocationDatesForm.controls.items.controls[i].controls.start_date.dirty || isSubmitted)"
+                              class="text-danger">
+                              <div class="error" *ngIf="projectAllocationDatesForm.controls.items.controls[i].controls.start_date.errors.required">
+                                StartDate is required.
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="input-group">
+                              <!-- <input type="text" formControlName="end_date" placeholder="Datepicker" [maxDate]="projectAllocationDatesForm.controls.items.controls[i].controls.project_end_date.value" name="end_date" class="form-control" placeholder="DD/MM/YYYY"
+                                bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'theme-blue' }"> -->
+                              <input class="form-control" #dpYMD="bsDatepicker" bsDatepicker [minDate]="projectAllocationDatesForm.controls.items.controls[i].controls.project_start_date.value" 
+                              
+                                formControlName="end_date" placeholder="YYYY-MM-DD" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD', containerClass: 'theme-blue'  }"
+                                >
+                                <div class="input-group-addon" (click)="dpYMD.toggle()" [attr.aria-expanded]="dpYMD.isOpen" >
+                                  <i class="fa fa-calendar"  value="Toggle"></i>
+                                </div>
+                            </div>
+                          </td>
+                          <!-- <td>                        
+                            <div class="input-group">
+                              <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                              </div>
+                              <input class="form-control" formControlName="default_time">
+                            </div>
+                          </td> -->
+                          <td>
+                            <div class="input-group">
+                              <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                              </div>
+                              <input class="form-control" formControlName="time_limit_daily">
+                            </div>
+                          </td>
+                          <td>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-clock-o"></i>
+                                </div>
+                                <input class="form-control" formControlName="time_limit_weekly">
+                              </div>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                  <div class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                  </div>
+                                  <input class="form-control" formControlName="time_limit_yearly">
+                                </div>
+                              </td>
+                        </ng-container>
+                      </tr>
+                    </tbody>
+                    </table>
+                  </div>
+
+                  <!-- /.box-body -->
+                </div>
+              </div>
+              <!-- /.box -->
+            </div>
+            <div class="row text-center">
+              <div class="col-md-12">
+                <button type="button" (click)="updateProjectAllocationDates()" class="btn btn-sm btn-success">
+                  <i class="fa fa-pencil"></i> &nbsp; Update </button>&nbsp;
+                <button type="button" class="btn btn-sm btn-danger" (click)="backToList()">
+                  <i class="fa fa-window-close-o"></i> Close</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Delete Confirmation Message</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Are you sure Do you really want to delete!
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="close()" >Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="confirm()" >Confirm</button>
+    </div>
+</ng-template>

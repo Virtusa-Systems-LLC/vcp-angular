@@ -1,0 +1,124 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+
+    <!-- Main content -->
+    <section class="content">
+        <app-alert></app-alert>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <b>{{ title }}</b>
+            </div>
+
+            <div class="panel-body">
+                <div *ngIf="currentprojectreportflag">
+                    <div class="row">
+                        <!-- <div class="col-md-12"> -->
+                            <!-- <div class="box box-solid"> -->
+
+                                <!-- /.box-header -->
+
+                                <h3 class="box-title">
+                                    Total hours spent by each employee in current month&nbsp; &nbsp;
+                                    &nbsp; &nbsp;<a href="javascript:void(0)" colspan="7"
+                                        class="s-icon-btn s-export-to-excel-15px" title="Download excel report"
+                                        (click)="exporttable1()">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </h3>
+                                <div *ngIf="projectViewStatus1" class="table">
+                                    <table class="table table-bordered" id="summary">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th>Sl no.</th> -->
+                                                <th>Name</th>
+                                                <th>Hours</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="
+                            let project of currentprojectSummaryReport ;let i = index
+                          ">
+                                                <!-- <td>{{ i + 1 }}</td> -->
+                                                <td>{{ project.first_name | capitalize }}</td>
+                                                <td>
+                                                    {{
+                                                    project.total_monthly_hours
+                                                    ? project.total_monthly_hours
+                                                    : " - "
+                                                    }}
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="!(projectsList?.length > 0)">
+                                                <td class="text-center" colspan="7">
+                                                    No Projects Found
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h3 class="box-title">
+                                    Work done in this project last month&nbsp; &nbsp; &nbsp;
+                                    &nbsp;
+                                    <a href="javascript:void(0)" class="s-icon-btn s-export-to-excel-15px"
+                                        title="Download excel report" (click)="exporttable2()">
+                                        <i class="fa fa-download"></i>
+                                    </a>
+                                </h3>
+                                <div *ngIf="projectViewStatus1" class="table">
+                                    <div class="table-container">
+                                        <table class="table table-bordered" id="detail">
+                                            <thead>
+                                                <tr>
+                                                    <th (click)="sorting('date')">Date<i class="fa fa-sort"></i></th>
+                                                    <th (click)="sorting('first_name')">Name<i class="fa fa-sort"></i>
+                                                    </th>
+                                                    <th (click)="sorting('hours')">Hours<i class="fa fa-sort"></i></th>
+                                                    <th>Tasks Completed</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="
+                            let project of currentprojectDetailReport | orderBy : key: reverse ; let i = index">
+                                                    <td>{{ project.date | capitalize }}</td>
+                                                    <td>{{ project.first_name | capitalize }}</td>
+                                                    <td>{{ project.hours ? project.hours : " - " }}</td>
+                                                    <td>
+                                                        {{ project.work_done ? project.work_done : " - " }}
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <!-- </div> -->
+                                <!-- /.box-body -->
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- <table id="daily_status">
+    <tr>
+      <th>user_id</th>
+      
+      <th>project_id</th>
+      <th>date</th>
+      <th>hours</th>
+      <th>last24hours</th>
+  
+    </tr>
+  
+    </tr>  -->
+<!-- </table> --> -->

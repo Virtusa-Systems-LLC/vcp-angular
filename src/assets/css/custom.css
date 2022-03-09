@@ -1,0 +1,94 @@
+.content-wrapper {
+    min-height: 700px;
+}
+.custom_btn_size{
+    margin-top: -4px;
+}
+.error {
+color :  red;
+}
+.badge-success {
+    background-color: #5cb85c;
+}
+.badge-danger {
+    background-color: #d9534f;
+}
+.col-md-2{
+    margin-top:28px;
+}
+.fc-event-container{
+    cursor: pointer;
+  }
+
+  .switch.checked {
+    background: #5cb85c !important;
+    color: white !important;
+ }
+ .switch {
+    background: #d9534f !important;
+    color: white !important;
+ }
+
+ .checkbox-checked {
+    background-color: goldenrod;
+    border: 1px solid goldenrod;
+    border-radius: 2px;
+   }
+
+   .checkbox-no-checked {
+    background-color: grey;
+    border: 1px solid grey;
+    border-radius: 2px;
+   }
+
+  .bg-purple{
+      background-color: #7E57C2;
+  }
+
+  .box.box-danger {
+    border-top:3px solid #dd4b39;
+    border-left:1px solid #c0cfc4;
+    border-right: 1px solid #c0cfc4;
+    border-bottom: 1px solid #c0cfc4;
+}
+  .col-md-12{
+    padding-right:45px;
+    padding-left:45px;
+    position: relative;
+    min-height: 1px;
+  }
+.handsontable th { 
+    white-space: pre-wrap !important;
+    background-color: #1d6791 !important;
+    color: #fff !important;
+    font-weight:600 !important;
+} 
+.handsontable table thead th{
+    /* background-color: green !important; */
+    /* color:white !important; */
+    font-weight:600 !important;
+    color: #ffffff !important;
+    background: #1d6791 !important;
+    /* font-size:15px !important; */
+    /* line-height: 40px !important; */
+}
+.btn-info.active, .btn-info:active, .open>.dropdown-toggle.btn-info {
+    color: #fff;
+    background-color: #1d6791 !important;
+    border-color: #1d6791 !important;
+}
+.text-info {
+    color: #ffffff !important;
+}
+.htCommentTextArea{
+    background-color: #FFFACD !important;
+    box-shadow: 1px 1px 2px #bbb  !important;
+    font-family: 'Arial'  !important;
+    -webkit-box-shadow: 1px 1px 2px #bbb  !important;
+    -moz-box-shadow: 1px 1px 2px #bbb  !important;
+    width: 360px !important;
+    height: 150px !important;
+   }
+.col-md-12 {
+    margin-top:20px;
+}
