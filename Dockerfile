@@ -8,7 +8,7 @@ RUN mkdir -p /opt/app
 WORKDIR /opt/app
 COPY . ./
 
-RUN npm-install-changed
+RUN npm install
 RUN npm run build
 
 RUN npm i --only=production
