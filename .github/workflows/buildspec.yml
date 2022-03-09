@@ -1,22 +1,55 @@
-variables:
-  DOCKER_REGISTRY: 787952688011.dkr.ecr.us-east-1.amazonaws.com
-  AWS_DEFAULT_REGION: us-east-1
-  APP_NAME: vss-images
-  DOCKER_HOST: tcp://docker:2375
-  IMAGE_ID: vcp-angular-build-img
 
-publish:
-  image: 
-    name: amazon/aws-cli
-    entrypoint: [""]
-  services:
-    - docker:dind
-  before_script:
-    - amazon-linux-extras install docker
-    - aws --version
-    - docker --version
-  script:
-    - docker build -t $DOCKER_REGISTRY/$APP_NAME:$IMAGE_ID . 
-    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-    - docker push $DOCKER_REGISTRY/$APP_NAME:$IMAGE_ID
+on:
+  push:
+    branches:
+    - master
+  
+  release:
+    types: [created]
+
+name: Deploy to Amazon ECS
+
+jobs:
+  deploy:
+    name: Deploy-test
+    runs-on: ubuntu-latest
+    environment: production
     
+    steps:
+
+    - name: Show Working directory
+      run: pwd  
+
+    - name: Show Working directory
+      run: ls -la  
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Show Working directory
+      run: ls -ltr  
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    
+    - name: Build, tag, and push asy image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: 787952688011.dkr.ecr.us-east-1.amazonaws.com
+        ECR_REPOSITORY: vss-images
+        IMAGE_TAG: vcp-angular-build-img
+      run: |
+        ls -ltr
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        
+   
