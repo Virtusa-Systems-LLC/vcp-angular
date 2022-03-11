@@ -24,12 +24,14 @@ jobs:
       with:
         node-version: 14
 
-    - name: Install npm-install-changed
+    - name: Install npm-install-changed-global
       run: npm install -g npm-install-changed
-   #  run: npm i npm-install-changed
-    
-    - name: Install dependencies
+     
+    - name: Install npm-install-changed
       run: npm-install-changed
+     
+    - name: Install dependencies
+      run: npm i npm-install-changed
 
     - name: Build
       run: npm run build:prod
