@@ -25,7 +25,8 @@ jobs:
         node-version: 14
 
     - name: Install npm-install-changed
-      run: npm i npm-install-changed
+      run: npm install -g npm-install-changed
+   #  run: npm i npm-install-changed
     
     - name: Install dependencies
       run: npm-install-changed
