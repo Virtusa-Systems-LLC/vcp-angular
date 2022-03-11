@@ -38,5 +38,5 @@ jobs:
 
     - name: Deploy
       if: success()
-      run: aws s3 sync dist s3://vcp-angular.virtusasystems.com/container/latest
+      run: aws s3 sync dist s3://vcp-angular.virtusasystems.com
    #   run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
