@@ -28,16 +28,16 @@ jobs:
       run: npm install -g npm-install-changed
      
     - name: Install npm-install-changed
-      run: npm-install-changed
+      run: npm i npm-install-changed
      
     - name: Install dependencies
-      run: npm i npm-install-changed
+      run: npm-install-changed
 
     - name: Build
       run: npm run build:prod
 
     - name: Deploy
       if: success()
-      run: aws s3 cp dist s3://vcp-angular.virtusasystems.com/ --recursive
-   # run: aws s3 sync dist s3://vcp-angular.virtusasystems.com/
+      run: aws s3 sync dist s3://vcp-angular.virtusasystems.com/
    #   run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+   #   run: aws s3 cp dist s3://vcp-angular.virtusasystems.com/ --recursive
